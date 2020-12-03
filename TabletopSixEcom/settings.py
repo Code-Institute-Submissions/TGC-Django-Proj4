@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary',
     # My Apps
     'books',
 ]
@@ -127,3 +128,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+CLOUDINARY = {
+    'cloud_name': os.environ.get("CLOUDINDARY_CLOUD_NAME"),
+    "api_key": os.environ.get("CLOUDINARY_API_KEY"),
+    "api_secret": os.environ.get("CLOUDINARY_API_SECRET"),
+}

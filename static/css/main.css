@@ -1,0 +1,59 @@
+/* General CSS Settings */
+body {
+    font-size: 15px;
+    font-family: 'El Messiri', sans-serif;
+    background-image: url('/static/images/texturedblackbg2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'MedievalSharp', cursive; 
+    font-weight: bold;
+}
+
+.navbar {
+    background-color: transparent;
+}
+
+#nav_cart_wrapper{
+    border-bottom: 1px solid rgba(150,150,150,1.0);
+    background-color: rgba(0,0,0,0.9);
+}
+
+#nav_cart a{
+    font-size: 0.75rem;
+    background: rgb(50,50,50);
+    color: antiquewhite;
+}
+
+#main_logo {
+    background-color: rgba(20,20,20,0.9);
+}
+
+#navbar_wrapper {
+    background-color: rgba(20,20,20,0.9);
+    border-bottom: 1px solid rgba(150,150,150,1.0);
+}
+
+#navbar ul li a{
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: antiquewhite;
+}
+
+.dropdown-item {
+    color: black;
+}
+
+/* font-family: 'El Messiri', sans-serif; */
+/* font-family: 'MedievalSharp', cursive; */
+
+@media only screen and (max-width: 768px){
+    #main_logo {
+        display: none;
+        visibility: hidden;
+        clear: both;
+        position: absolute;
+    }
+}
