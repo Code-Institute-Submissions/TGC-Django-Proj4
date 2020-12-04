@@ -1,4 +1,5 @@
 {% load static %}
+{% load cloudinary %}
 <!doctype html>
 <html lang="en">
   <head>
@@ -65,10 +66,28 @@
                             Books
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                                <div class="d-flex">
+                                    <div style="flex:1">
+                                        <ul class="p-0 mr-2" style="list-style-type: none; border-right: 1px solid rgba(150,150,150,1.0);">
+                                            <li><a class="dropdown-item" href="#">What's NEW!</a></li>
+                                            <li><a class="dropdown-item" href="#">Best Seller</a></li>
+                                            <li><a class="dropdown-item" href="#">On Sale</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="d-flex flex-row" style="flex:3">
+                                        {% for book in books%}
+                                        <a class="dropdown-item p-0 mx-2" href="#" style="height:90px; width:80px;">
+                                            {% cloudinary book.cover width=90 height=100 crop="fit" %}
+                                        </a>
+                                        {% endfor %}
+                                        <a class="dropdown-item p-2 mx-2" href="#">
+                                            <img src="{{book.cover}}" style="height:90px; width:80px;">
+                                        </a>
+                                        <a class="dropdown-item p-2 mx-2" href="#">
+                                            <img src="{{book.cover}}" style="height:90px; width:80px;">
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -76,10 +95,28 @@
                             Assets
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown2">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                                <div class="d-flex">
+                                    <div style="flex:1">
+                                        <ul class="p-0 mr-2" style="list-style-type: none; border-right: 1px solid rgba(150,150,150,1.0);">
+                                            <li><a class="dropdown-item" href="#">What's NEW!</a></li>
+                                            <li><a class="dropdown-item" href="#">Best Seller</a></li>
+                                            <li><a class="dropdown-item" href="#">On Sale</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="d-flex flex-row" style="flex:3">
+                                        {% for book in books%}
+                                        <a class="dropdown-item p-0 mx-2" href="#" style="height:90px; width:80px;">
+                                            {% cloudinary book.cover width=90 height=100 crop="fit" %}
+                                        </a>
+                                        {% endfor %}
+                                        <a class="dropdown-item p-2 mx-2" href="#">
+                                            <img src="{{book.cover}}" style="height:90px; width:80px;">
+                                        </a>
+                                        <a class="dropdown-item p-2 mx-2" href="#">
+                                            <img src="{{book.cover}}" style="height:90px; width:80px;">
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -87,10 +124,28 @@
                             Miniatures
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown3">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
+                                <div class="d-flex">
+                                    <div style="flex:1">
+                                        <ul class="p-0 mr-2" style="list-style-type: none; border-right: 1px solid rgba(150,150,150,1.0);">
+                                            <li><a class="dropdown-item" href="#">What's NEW!</a></li>
+                                            <li><a class="dropdown-item" href="#">Best Seller</a></li>
+                                            <li><a class="dropdown-item" href="#">On Sale</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="d-flex flex-row" style="flex:3">
+                                        {% for book in books%}
+                                        <a class="dropdown-item p-0 mx-2" href="#" style="height:90px; width:80px;">
+                                            {% cloudinary book.cover width=90 height=100 crop="fit" %}
+                                        </a>
+                                        {% endfor %}
+                                        <a class="dropdown-item p-2 mx-2" href="#">
+                                            <img src="{{book.cover}}" style="height:90px; width:80px;">
+                                        </a>
+                                        <a class="dropdown-item p-2 mx-2" href="#">
+                                            <img src="{{book.cover}}" style="height:90px; width:80px;">
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -117,5 +172,40 @@
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
     {%block js%}{%endblock%}
+    {% cloudinary_includes %}
+    {% cloudinary_js_config %}
+    <script>
+    function prettydump(obj) {
+        ret = ""
+        $.each(obj, function(key, value) {
+        ret += "<tr><td>" + key + "</td><td>" + value + "</td></tr>";
+        });
+        return ret;
+    }
+    $(function () {
+        $('#form input[type="file"]')
+        .cloudinary_fileupload({
+        dropZone: '#form',
+        start: function () {
+            $('.status_value').text('Starting direct upload...');
+        },
+        progress: function () {
+            $('.status_value').text('Uploading...');
+        },
+        })
+        .on('cloudinarydone', function (e, data) {
+            $('.status_value').text('Updating backend...');
+            var info = $('<div class="uploaded_info"/>');
+            $(info).append($('<div class="data"/>').append(prettydump(data.result)));
+            $(info).append($('<div class="image"/>').append(
+            $.cloudinary.image(data.result.public_id, {
+            format: data.result.format, width: 100%, height: 100%, crop: "fill"
+            })
+            ));
+            $('.uploaded_info_holder').append(info);
+            $('#form  input[type="file"]').parent().parent().remove();
+        });
+    });
+    </script>
   </body>
 </html>

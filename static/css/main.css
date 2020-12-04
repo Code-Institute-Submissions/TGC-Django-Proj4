@@ -42,8 +42,13 @@ h1, h2, h3, h4 {
     color: antiquewhite;
 }
 
-.dropdown-item {
-    color: black;
+.dropdown-menu {
+    background-color: black;
+    border: 2px ridge rgba(150,150,150,1.0);
+}
+
+.drop_menu_left ul{
+    list-style-type: none;
 }
 
 /* font-family: 'El Messiri', sans-serif; */
