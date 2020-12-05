@@ -1,0 +1,51 @@
+#hero_banner {
+    background: linear-gradient(0deg, rgba(20, 15, 15, 0.7), rgba(40, 30, 30, 0.7)),
+                url('/static/images/nrrcollectiontops4.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-bottom: 1px solid rgba(150,150,150,1.0);
+}
+
+#hero_text {
+    color: antiquewhite;
+}
+
+#hero_search {
+    width: 100%;
+}
+
+#hp_books_wrapper,
+#hp_assets_wrapper,
+#hp_minatures_wrapper {
+    border-bottom: 1px ridge rgba(150,150,150,0.3);
+}
+
+#hp_books h4,
+#hp_assets h4,
+#hp_minatures h4 {
+    color: antiquewhite;
+    border-bottom: 1px solid rgba(150,150,150,1.0);
+}
+
+.homebooks {
+    width: 200px;
+    height: 300px;
+}
+
+.homebooks_text{
+    color: antiquewhite;
+    background-color: rgba(0,0,0,1);
+    font-size: 0.8rem;
+}
+.homebooks_text a {
+    font-size: 0.8rem;
+}
+
+.popover-header {
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.popover-body {
+    font-size: 0.7rem;
+}

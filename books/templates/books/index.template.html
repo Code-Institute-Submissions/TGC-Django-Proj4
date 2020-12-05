@@ -3,12 +3,16 @@
 
 {%block title%}TableTop Six MarketPlace{%endblock%}
 
-{%block head%}WELCOME FIRST BOOK PAGE{%endblock%}
-
 {%block content%}
-    <ul>
-        {%for book in books%}
-        <li>{{book.title}}</li>
-        {%endfor%} 
-    </ul>   
+<div class="container-fluid d-flex justify-content-center" id="hero_banner">
+    <div class="container">
+        <h1>Tabletop books and tools for every RPG Player</h1>
+        <h3>Our Marketplace provides high quality, affordable, tabletop games accessories crafted by talented creators around the world!</h3>
+        <form class="form-control">
+            <input type="text" class="form-control" id="hero_search" placeholder="Search for Books/Miniatures/Assets/Dice... etc...">
+            <a href="#" class="btn btn-lg btn-success btn-outline-success" id="hero_search_btn>">Search Thousands of Masterpieces</a>
+        </form>
+    </div>
+</div>
+
 {%endblock%}

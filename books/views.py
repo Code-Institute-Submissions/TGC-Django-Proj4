@@ -10,10 +10,11 @@ def redirect_view(request):
 
 
 def homepage(request):
-    books = Book.objects.order_by('-release_date')
-    print(books)
+    books = Book.objects.all()
+    books_nav = books.order_by('-release_date')[:2]
     return render(request, 'books/homepage.template.html', {
-        'books': books
+        'books': books,
+        'books_nav': books_nav,
     })
 
 

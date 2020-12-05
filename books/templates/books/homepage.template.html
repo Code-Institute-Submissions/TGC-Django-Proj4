@@ -1,14 +1,90 @@
 {% extends 'base.template.html' %}
 {% load static %}
+{% load cloudinary %}
+{% load mathfilters %}
 
 {%block title%}TableTop Six MarketPlace{%endblock%}
 
-{%block head%}WELCOME FIRST BOOK PAGE{%endblock%}
+{%block css%}<link rel="stylesheet" href="{% static '/css/homepage.css' %}">{%endblock%}
 
 {%block content%}
-    <ul>
-        {%for book in books%}
-        <li>{{book.title}}</li>
-        {%endfor%} 
-    </ul>   
+<div class="container-fluid d-flex justify-content-center" id="hero_banner">
+    <div class="container d-flex flex-column justify-content-center align-items-center py-3 text-center" id="hero_text">
+        <h1>Tabletop books and tools for every RPG Player</h1>
+        <h5>Our Marketplace provides high quality, affordable, tabletop games accessories crafted by talented creators around the world!</h5>
+        <form class="col-12 d-flex flex-column justify-content-center align-items-center py-3">
+            <input type="text" class="form-control col-lg-8 my-3" id="hero_search" placeholder="Search for Books/Miniatures/Assets/Dice... etc...">
+            <a href="#" class="btn btn-lg btn-success" id="hero_search_btn>">Search Thousands of Masterpieces</a>
+        </form>
+    </div>
+</div>
+
+<div class="container-fluid d-flex justify-content-center align-items-center p-2 pb-5" id="hp_books_wrapper">
+    <div class="container d-flex flex-column justify-content-center align-items-center" id="hp_books">
+        <h4 class="py-3 mb-4">TableTop Books and RPGs<span class="badge badge-danger ml-2">NEW!</span></h4>
+        <div class="d-flex flex-row flex-wrap mb-3">
+            {% for book in books%}
+            <div class="homebooks mx-3 mb-3">
+                <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Author: {{book.author}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
+                    {% cloudinary book.cover width=200 height=300 crop="fill" %}
+                </button>
+                <div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 m-0">
+                    <p class="m-0 pl-2">Price: ${{book.price|div:100}}</p>
+                    <a href="#" class="btn btn-sm btn-info">View Book Info</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>        
+    </div>
+</div>
+
+<div class="container-fluid d-flex justify-content-center align-items-center p-2 pb-5" id="hp_assets_wrapper">
+    <div class="container d-flex flex-column justify-content-center align-items-center" id="hp_assets">
+        <h4 class="py-3 mb-4">TableTop Online Assets<span class="badge badge-danger ml-2">NEW!</span></h4>
+        <div class="d-flex flex-row flex-wrap mb-3">
+            {% for book in books%}
+            <div class="homebooks mx-3 mb-3">
+                <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Author: {{book.author}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
+                    {% cloudinary book.cover width=200 height=300 crop="fill" %}
+                </button>
+                <div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 m-0">
+                    <p class="m-0 pl-2">Price: ${{book.price|div:100}}</p>
+                    <a href="#" class="btn btn-sm btn-info">View Book Info</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>        
+    </div>
+</div> 
+
+<div class="container-fluid d-flex justify-content-center align-items-center p-2 pb-5" id="hp_miniatures_wrapper">
+    <div class="container d-flex flex-column justify-content-center align-items-center" id="hp_minatures">
+        <h4 class="py-3 mb-4">TableTop Miniatures<span class="badge badge-danger ml-2">NEW!</span></h4>
+        <div class="d-flex flex-row flex-wrap mb-3">
+            {% for book in books%}
+            <div class="homebooks mx-3 mb-3">
+                <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Author: {{book.author}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
+                    {% cloudinary book.cover width=200 height=300 crop="fill" %}
+                </button>
+                <div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 m-0">
+                    <p class="m-0 pl-2">Price: ${{book.price|div:100}}</p>
+                    <a href="#" class="btn btn-sm btn-info">View Book Info</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>        
+    </div>
+</div> 
+{%endblock%}
+
+{%block js%}
+<script>
+// Bootstrap 4 Popover Script
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+$('.popover-dismiss').popover({
+  trigger: 'focus'
+})
+</script>
 {%endblock%}
