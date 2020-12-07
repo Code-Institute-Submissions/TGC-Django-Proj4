@@ -1,6 +1,10 @@
+from django.apps import apps
 from django.contrib import admin
-from .models import Book, Category
+from django.contrib.admin.sites import AlreadyRegistered
 
-# Register your models here.
-admin.site.register(Book)
-admin.site.register(Category)
+app_models = apps.get_app_config('books').get_models()
+for model in app_models:
+    try:
+        admin.site.register(model)
+    except AlreadyRegistered:
+        pass

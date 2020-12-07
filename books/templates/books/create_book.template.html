@@ -1,0 +1,99 @@
+{% extends 'base.template.html' %}
+{% load static %}
+{% load cloudinary %}
+{% load mathfilters %}
+{% load crispy_forms_tags %}
+
+{%block title%}Create New Book{%endblock%}
+
+{%block css%}
+<style>
+#create_form label{
+    color: antiquewhite;
+}
+
+#div_id_reviews,
+#div_id_cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1rem;
+    color: antiquewhite;
+}
+
+#div_id_reviews div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+</style>
+{%endblock%}
+
+{%block js%}
+<script>
+$(document).ready(function(){
+    $('#id_category').on('change', function(e){
+        let bookCategory = $('#id_category').val();
+        console.log(bookCategory)
+        console.log({{publisher.publisher}})
+    })
+
+})
+</script>
+{%endblock%}
+
+{%block content%}
+<div class="container-fluid">
+    <div class="container d-flex flex-column justify-content-center align-items-center">
+        <h2 class="my-5 text-center col-md-12">Create a NEW Book Product</h2>
+        <form method="POST" class="col-md-8" id="create_form">
+            {% csrf_token %}
+            <div class="form-row mb-2">
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.title|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.ISBN|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-row mb-2">
+                <div class="form-group col-md-4 mb-0">
+                    {{ form.publisher|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                    {{ form.category|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-4 mb-0">
+                    {{ form.release_date|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-row mb-2">
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.price|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.cover|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-row mb-2">
+                <div class="form-group col-md-12 mb-0">
+                    {{ form.reviews|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-row mb-2">
+                <div class="form-group col-md-12 mb-0">
+                    {{ form.desc|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-row mb-5">
+                <div class="form-group col-md-12 mb-0 d-flex justify-content-center align-items-center">
+                    <input type="submit" class="btn btn-lg btn-outline-primary">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{%endblock%}

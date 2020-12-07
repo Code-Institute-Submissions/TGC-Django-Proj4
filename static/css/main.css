@@ -11,6 +11,7 @@ h1, h2, h3, h4 {
     font-family: 'MedievalSharp', cursive; 
     font-weight: bold;
     letter-spacing: 0.2rem;
+    color: antiquewhite;
 }
 
 .navbar {

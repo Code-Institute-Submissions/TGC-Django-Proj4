@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cloudinary',
     'mathfilters',
+    'crispy_forms',
 
     # My Apps
     'books',
@@ -136,3 +137,5 @@ CLOUDINARY = {
     "api_key": os.environ.get("CLOUDINARY_API_KEY"),
     "api_secret": os.environ.get("CLOUDINARY_API_SECRET"),
 }
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
