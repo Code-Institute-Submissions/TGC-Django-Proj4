@@ -1,6 +1,8 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from .models import Book, Category
 from .forms import BookForm
+from django.db.models import Q
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -26,9 +28,16 @@ def index(request):
 
 def create_book(request):
     create_form = BookForm
-    publisher = Category.objects.all()
-    print(publisher)
     return render(request, 'books/create_book.template.html', {
         'form': create_form,
-        'publisher': publisher,
     })
+
+
+def get_category(request):
+    if request.method == 'GET':
+        category_list = Category.objects.all()
+        category = []
+        for cat in category_list:
+            category.append({"id": cat.id, "title": cat.title,
+                             "publisher": cat.publisher})
+    return JsonResponse(category, safe=False)

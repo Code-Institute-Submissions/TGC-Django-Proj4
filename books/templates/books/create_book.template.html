@@ -37,8 +37,22 @@ $(document).ready(function(){
     $('#id_category').on('change', function(e){
         let bookCategory = $('#id_category').val();
         console.log(bookCategory)
-        console.log({{publisher.publisher}})
-    })
+
+        $.ajax({
+            url: "{% url 'cat_search' %}",
+            dataType: "json",
+            type: "GET",
+            success: function(data){
+                for (let i = 0; i < data.length; i++){
+                    if (bookCategory == data[i].id){
+                        $('#form_publisher').val(data[i].publisher)
+                    }
+                }
+
+            }
+        })
+        
+    });
 
 })
 </script>
@@ -60,7 +74,8 @@ $(document).ready(function(){
             </div>
             <div class="form-row mb-2">
                 <div class="form-group col-md-4 mb-0">
-                    {{ form.publisher|as_crispy_field }}
+                    <label for="form_publisher" class="requiredField">Publisher</label>
+                    <input class="form-control" type="text" id="form_publisher" readonly>
                 </div>
                 <div class="form-group col-md-4 mb-0">
                     {{ form.category|as_crispy_field }}
@@ -84,7 +99,7 @@ $(document).ready(function(){
             </div>
             <div class="form-row mb-2">
                 <div class="form-group col-md-12 mb-0">
-                    {{ form.desc|as_crispy_field }}
+                    {{ form.description|as_crispy_field }}
                 </div>
             </div>
             <div class="form-row mb-5">
