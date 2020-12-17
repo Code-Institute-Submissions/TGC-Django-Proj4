@@ -3,6 +3,8 @@ from .models import Book, Category, Genre, Tag
 from .forms import BookForm
 from django.db.models import Q
 from django.http import JsonResponse
+import json
+from django.core import serializers
 
 # Create your views here.
 
@@ -26,7 +28,8 @@ def index(request):
     genre = Genre.objects.all()
     tags = Tag.objects.all()
     books = Book.objects.all()
-    books_nav = books.order_by('-release_date')[:2]
+    books_nav = Book.objects.order_by('-release_date')[:2]
+
     return render(request, 'books/index.template.html', {
         'genre': genre,
         'tags': tags,
@@ -60,3 +63,39 @@ def get_category(request):
             category.append({"id": cat.id, "title": cat.title,
                              "publisher": cat.publisher})
     return JsonResponse(category, safe=False)
+
+
+def genre_filter(request):
+    genre = Genre.objects.all()
+    tags = Tag.objects.all()
+    books = Book.objects.all()
+    books_nav = Book.objects.order_by('-release_date')[:2]
+
+    if request.method == 'GET':
+        genre = request.GET.get('text', None)
+        # genre_list = Book.objects.filter(title=genre)
+        genre_filter = Genre.objects.values_list('id', flat=True).get(title=genre)
+        print(genre)
+        print(genre_filter)
+        data = Book.objects.filter(genre=genre_filter)
+        print(data)
+        return render(request, 'books/index.template.html', {
+            'genre': genre,
+            'tags': tags,
+            'books': books,
+            'books_nav': books_nav,
+            'genre_filter': data,
+        })
+        # data_json = serializers.serialize("json", Book.objects.filter(genre=genre_filter))
+        # return HttpResponse(data_json)
+        
+    # if request.method == "GET":
+    #     books_list = Book.objects.value()
+    #     # books_list2 = Book.objects.value()
+    #     # print(books_list2)
+    #     books_json = [book for book in books_list]
+    #     print(books_json)
+    #     # for book in books_list:
+    #     #     print(book)
+    #     #     # books_json.append(list(book.value()))
+    # return JsonResponse(books_json, safe=False)
