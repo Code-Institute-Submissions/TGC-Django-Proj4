@@ -187,40 +187,5 @@
     <!-- Toastr JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
     {%block js%}{%endblock%}
-    {% cloudinary_includes %}
-    {% cloudinary_js_config %}
-    <script>
-    function prettydump(obj) {
-        ret = ""
-        $.each(obj, function(key, value) {
-        ret += "<tr><td>" + key + "</td><td>" + value + "</td></tr>";
-        });
-        return ret;
-    }
-    $(function () {
-        $('#form input[type="file"]')
-        .cloudinary_fileupload({
-        dropZone: '#form',
-        start: function () {
-            $('.status_value').text('Starting direct upload...');
-        },
-        progress: function () {
-            $('.status_value').text('Uploading...');
-        },
-        })
-        .on('cloudinarydone', function (e, data) {
-            $('.status_value').text('Updating backend...');
-            var info = $('<div class="uploaded_info"/>');
-            $(info).append($('<div class="data"/>').append(prettydump(data.result)));
-            $(info).append($('<div class="image"/>').append(
-            $.cloudinary.image(data.result.public_id, {
-            format: data.result.format, width: 400, height: 600, crop: "fill"
-            })
-            ));
-            $('.uploaded_info_holder').append(info);
-            $('#form  input[type="file"]').parent().parent().remove();
-        });
-    });
-    </script>
   </body>
 </html>

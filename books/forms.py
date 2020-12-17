@@ -1,5 +1,6 @@
 from django import forms
 from .models import Book
+from cloudinary.forms import CloudinaryJsFileField
 
 
 class BookForm(forms.ModelForm):
@@ -8,8 +9,11 @@ class BookForm(forms.ModelForm):
     reviews = forms.ChoiceField(choices=choices,
                                 widget=forms.RadioSelect(attrs={
                                     'class': 'form-inline'}))
+    cover = CloudinaryJsFileField()
 
     class Meta:
         model = Book
         fields = ('__all__')
+
+    
 

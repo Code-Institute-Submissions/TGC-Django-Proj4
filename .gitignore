@@ -4,6 +4,7 @@ core.python*
 env.py
 __pycache__/
 *.py[cod]
+.env
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/django

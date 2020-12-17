@@ -1,0 +1,46 @@
+#nav-bar {
+    flex: 1;
+    border: none;
+}
+
+#order-by-list label,
+#order-by-list select{
+    font-size: 0.8rem;
+}
+
+#nav-filter {
+    background-color: transparent;
+    border: none;
+}
+
+#nav-filter a,
+#nav-filter h5 {
+    font-family: 'MedievalSharp', cursive; 
+    letter-spacing: 0.2rem;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: antiquewhite;
+}
+
+#nav-filter h5 {
+    font-size: 1rem;
+}
+
+#books_catalogue {
+    flex: 3;
+}
+
+.nav-title span{
+    margin-left: 2rem;
+}
+
+.nav-content{
+    font-size: 0.6rem;
+}
+
+@media only screen and (max-width: 750px){
+    .nav-title span{
+        font-size: 0.5rem;
+        margin-left: 0.2rem;
+    }
+}

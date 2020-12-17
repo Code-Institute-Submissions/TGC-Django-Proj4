@@ -44,8 +44,16 @@
 .popover-header {
     font-size: 0.8rem;
     text-align: center;
+    background: rgba(25,25,25,1);
+    border: solid 1px antiquewhite;
+}
+
+.popover-header hr {
+    border-color: antiquewhite;
 }
 
 .popover-body {
     font-size: 0.7rem;
+    font-weight: bold;
+    background:  rgba(178, 190, 181,1)
 }

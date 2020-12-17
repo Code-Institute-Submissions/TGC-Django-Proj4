@@ -28,10 +28,23 @@
     justify-content: space-between;
     align-items: center;
 }
+
+#div_id_cover {
+    margin-bottom: 0;
+}
+
+.status {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color:antiquewhite;
+}
 </style>
 {%endblock%}
 
 {%block js%}
+{% cloudinary_includes %}
+{% cloudinary_js_config %}
 <script>
 $(document).ready(function(){
     $('#id_category').on('change', function(e){
@@ -54,15 +67,47 @@ $(document).ready(function(){
         
     });
 
+    function prettydump(obj) {
+    ret = ""
+    $.each(obj, function(key, value) {
+        ret += "<tr><td>" + key + "</td><td>" + value + "</td></tr>";
+    });
+    return ret;
+    }
+    $(function () {
+    $('#form input[type="file"]')
+    .cloudinary_fileupload({
+        dropZone: '#form',
+        start: function () {
+        $('.status_value').text('Starting direct upload...');
+        },
+        progress: function () {
+        $('.status_value').text('Uploading...');
+        },
+    })
+    .on('cloudinarydone', function (e, data) {
+        $('.status_value').text('Updating backend... submit to complete...');
+        var info = $('<div class="uploaded_info"/>');
+        $(info).append($('<div class="image d-flex justify-content-center"/>').append(
+            $.cloudinary.image(data.result.public_id, {
+            format: data.result.format, width: 150, height: 200, crop: "fit"
+            })
+        ));
+        $('#uploaded_info_holder').append(info);
+        $('#form  input[type="file"]').parent().parent().remove();
+    });
+    });
+
+
 })
 </script>
 {%endblock%}
 
 {%block content%}
 <div class="container-fluid">
-    <div class="container d-flex flex-column justify-content-center align-items-center">
+    <div class="container d-flex flex-column justify-content-center align-items-center" id="form">
         <h2 class="my-5 text-center col-md-12">Create a NEW Book Product</h2>
-        <form method="POST" class="col-md-8" id="create_form">
+        <form method="POST" class="col-md-8" id="create_form" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-row mb-2">
                 <div class="form-group col-md-6 mb-0">
@@ -88,8 +133,22 @@ $(document).ready(function(){
                 <div class="form-group col-md-6 mb-0">
                     {{ form.price|as_crispy_field }}
                 </div>
-                <div class="form-group col-md-6 mb-0">
+                <div class="form-group col-md-6 mb-0" id="uploaded_info_holder">
                     {{ form.cover|as_crispy_field }}
+                    <small id="cover_text" class="form-text text-muted">
+                        <div class="status ml-3 my-0">
+                            <h6>Status</h6><span class="status_value">Idle</span>
+                        </div>
+                    </small>
+                </div>
+            </div>
+            <div class="form-row mb-2">
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.tags|as_crispy_field }}
+                </div>
+                <div class="form-group col-md-6 mb-0">
+                    {{ form.genre|as_crispy_field }}
+                    {{ form.owner|as_crispy_field }}
                 </div>
             </div>
             <div class="form-row mb-2">
