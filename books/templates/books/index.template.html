@@ -10,15 +10,29 @@
 {%for gen in genre%}
 <script>
     $(document).ready(function(){
+        // Sidebar filter Animations
         $('.nav-title-{{gen.title}}').click(function(){
+            $('.nav-content').slideUp().toggleClass('active', false);
+            if(!$('.nav-content').hasClass('active')){
+                $('.nav-title span').html('<i class="fa fa-plus" aria-hidden="true"></i>');
+                $('.nav-title').css({"background": "transparent"});
+            }
             $('.nav-content-{{gen.title}}').slideToggle().toggleClass('active');
             if( $('.nav-content-{{gen.title}}').hasClass('active')){
                 $('.nav-title-{{gen.title}} span').html('<i class="fa fa-minus" aria-hidden="true"></i>');
                 $('.nav-title-{{gen.title}}').css({"background": "rgba(150,150,150,1.0)"});
             }else{
-                $('.nav-title-{{gen.title}} span').html('<i class="fa fa-plus" aria-hidden="true"></i>');
+                $('.nav-title-{{gen.title}} span').html('<i class="fa fa-minus" aria-hidden="true"></i>');
                 $('.nav-title-{{gen.title}}').css({"background": "transparent"});
             }
+        })
+
+        // Bootstrap 4 Popover Script
+        $(function () {
+        $('[data-toggle="popover"]').popover()
+        })
+        $('.popover-dismiss').popover({
+        trigger: 'focus'
         })
 
         $('.nav-title-{{gen.title}}').click(function(){
@@ -31,23 +45,7 @@
                 data: {'text': genre_type},
                 success: function(data){
                     console.log(data);
-                    // let filtered_books = JSON.parse(data);
-                    // console.log(filtered_books[0].fields.title)
-                    // console.log(data)
-                    // console.log(JSON.parse(data))
-                    $('#books_catalogue').html(
-                        '{% for book in genre_filter %}'+
-                        '<div class="homebooks mx-3 mb-3">'+
-                            '<button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Author: {{book.author}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">'+
-                                '{% cloudinary book.cover width=200 height=300 crop="fill" %}'+
-                            '</button>'+
-                            '<div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 m-0">'+
-                                '<p class="m-0 pl-2">Price: ${{book.price|div:100}}</p>'+'
-                                <a href="#" class="btn btn-sm btn-info">View Book Info</a>'+'
-                            </div>'+'
-                        </div>'+'
-                        {% endfor %}'
-                    )
+                    $('#books_display').html(data);
                 },
 
             })
@@ -90,19 +88,8 @@
         </nav>
     </div>
     <div id="books_catalogue" class="d-flex flex-row justify-content-center mt-5">
-        <div class="d-flex flex-row flex-wrap flex-shrink-0 flex-wrap mb-3">
+        <div class="d-flex flex-row flex-wrap flex-shrink-0 flex-wrap mb-3" id="books_display">
             {% for book in books %}
-            <div class="homebooks mx-3 mb-3">
-                <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Author: {{book.author}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
-                    {% cloudinary book.cover width=200 height=300 crop="fill" %}
-                </button>
-                <div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 m-0">
-                    <p class="m-0 pl-2">Price: ${{book.price|div:100}}</p>
-                    <a href="#" class="btn btn-sm btn-info">View Book Info</a>
-                </div>
-            </div>
-            {% endfor %}
-            {% for book in genre_filter %}
             <div class="homebooks mx-3 mb-3">
                 <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Author: {{book.author}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
                     {% cloudinary book.cover width=200 height=300 crop="fill" %}

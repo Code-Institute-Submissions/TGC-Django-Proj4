@@ -38,6 +38,37 @@
     font-size: 0.6rem;
 }
 
+.homebooks {
+    width: 200px;
+    height: 300px;
+}
+
+.homebooks_text{
+    color: antiquewhite;
+    background-color: rgba(0,0,0,1);
+    font-size: 0.8rem;
+}
+.homebooks_text a {
+    font-size: 0.8rem;
+}
+
+.popover-header {
+    font-size: 0.8rem;
+    text-align: center;
+    background: rgba(25,25,25,1);
+    border: solid 1px antiquewhite;
+}
+
+.popover-header hr {
+    border-color: antiquewhite;
+}
+
+.popover-body {
+    font-size: 0.7rem;
+    font-weight: bold;
+    background:  rgba(178, 190, 181,1)
+}
+
 @media only screen and (max-width: 750px){
     .nav-title span{
         font-size: 0.5rem;

@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404, reverse
+from django.template.loader import render_to_string
 from .models import Book, Category, Genre, Tag
 from .forms import BookForm
 from django.db.models import Q
@@ -75,17 +76,20 @@ def genre_filter(request):
         genre = request.GET.get('text', None)
         # genre_list = Book.objects.filter(title=genre)
         genre_filter = Genre.objects.values_list('id', flat=True).get(title=genre)
-        print(genre)
-        print(genre_filter)
         data = Book.objects.filter(genre=genre_filter)
+        # filtered_books = []
+        # for book in data:
+        #     filtered_books.append({"id": book.id, "title": book.title,
+        #                            "ISBN": book.ISBN, "category": book.category.title,
+        #                            "release_date": book.release_date, "price": book.price,
+        #                            "reviews": book.reviews, "cover": book.cover})
+        # print(genre)
+        print(genre_filter)
         print(data)
-        return render(request, 'books/index.template.html', {
-            'genre': genre,
-            'tags': tags,
-            'books': books,
-            'books_nav': books_nav,
-            'genre_filter': data,
+        html = render_to_string('books/filtered_data.template.html', {
+            "data": data
         })
+        return HttpResponse(html)
         # data_json = serializers.serialize("json", Book.objects.filter(genre=genre_filter))
         # return HttpResponse(data_json)
         

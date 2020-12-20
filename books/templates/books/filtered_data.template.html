@@ -1,0 +1,57 @@
+{% load cloudinary %}
+{% load mathfilters%}
+
+{% for book in data %}
+    <div class="homebooks mx-3 mb-3">
+        <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Author: {{book.author}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
+            {% cloudinary book.cover width=200 height=300 crop="fill" %}
+        </button>
+        <div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 m-0">
+            <p class="m-0 pl-2">Price: ${{book.price|div:100}}</p>
+            <a href="#" class="btn btn-sm btn-info">View Book Info</a>
+        </div>
+    </div>
+{% endfor %}
+
+<script>
+// Bootstrap 4 Popover Script
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+$('.popover-dismiss').popover({
+  trigger: 'focus'
+})
+</script>
+
+<style>
+.homebooks {
+    width: 200px;
+    height: 300px;
+}
+
+.homebooks_text{
+    color: antiquewhite;
+    background-color: rgba(0,0,0,1);
+    font-size: 0.8rem;
+}
+.homebooks_text a {
+    font-size: 0.8rem;
+}
+
+.popover-header {
+    font-size: 0.8rem;
+    text-align: center;
+    background: rgba(25,25,25,1);
+    border: solid 1px antiquewhite;
+}
+
+.popover-header hr {
+    border-color: antiquewhite;
+}
+
+.popover-body {
+    font-size: 0.7rem;
+    font-weight: bold;
+    background:  rgba(178, 190, 181,1)
+}
+</style>
