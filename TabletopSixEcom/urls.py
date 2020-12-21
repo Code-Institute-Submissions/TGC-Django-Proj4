@@ -20,5 +20,6 @@ from books.views import redirect_view
 urlpatterns = [
     path("", redirect_view),
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
     path('books/', include('books.urls')),
 ]

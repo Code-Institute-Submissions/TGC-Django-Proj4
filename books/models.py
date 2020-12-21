@@ -24,7 +24,6 @@ class Book(models.Model):
         default=current_year(),
         validators=[MinValueValidator(1900),
                     max_value_current_year], blank=False)
-    # release_date = models.DateField(blank=False)
     price = models.IntegerField(blank=False)
     reviews = models.IntegerField(blank=False)
     cover = CloudinaryField()
@@ -32,6 +31,9 @@ class Book(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     tags = models.ManyToManyField('Tag')
     genre = models.ForeignKey('Genre', on_delete=models.CASCADE)
+    preview_1 = CloudinaryField()
+    preview_2 = CloudinaryField()
+    preview_3 = CloudinaryField()
 
     def __str__(self):
         return self.title

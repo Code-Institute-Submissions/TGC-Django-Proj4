@@ -6,6 +6,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 import json
 from django.core import serializers
+from django.contrib.auth.decorators import login_required, permission_required
 
 # Create your views here.
 
@@ -38,7 +39,7 @@ def index(request):
         'books_nav': books_nav,
     })
 
-
+@login_required
 def create_book(request):
     if request.method == "POST":
         create_form = BookForm(request.POST)
@@ -67,39 +68,23 @@ def get_category(request):
 
 
 def genre_filter(request):
-    genre = Genre.objects.all()
-    tags = Tag.objects.all()
-    books = Book.objects.all()
-    books_nav = Book.objects.order_by('-release_date')[:2]
-
     if request.method == 'GET':
         genre = request.GET.get('text', None)
-        # genre_list = Book.objects.filter(title=genre)
-        genre_filter = Genre.objects.values_list('id', flat=True).get(title=genre)
+        genre_filter = Genre.objects.values_list(
+            'id', flat=True).get(title=genre)
         data = Book.objects.filter(genre=genre_filter)
-        # filtered_books = []
-        # for book in data:
-        #     filtered_books.append({"id": book.id, "title": book.title,
-        #                            "ISBN": book.ISBN, "category": book.category.title,
-        #                            "release_date": book.release_date, "price": book.price,
-        #                            "reviews": book.reviews, "cover": book.cover})
-        # print(genre)
         print(genre_filter)
         print(data)
         html = render_to_string('books/filtered_data.template.html', {
             "data": data
         })
         return HttpResponse(html)
-        # data_json = serializers.serialize("json", Book.objects.filter(genre=genre_filter))
-        # return HttpResponse(data_json)
-        
-    # if request.method == "GET":
-    #     books_list = Book.objects.value()
-    #     # books_list2 = Book.objects.value()
-    #     # print(books_list2)
-    #     books_json = [book for book in books_list]
-    #     print(books_json)
-    #     # for book in books_list:
-    #     #     print(book)
-    #     #     # books_json.append(list(book.value()))
-    # return JsonResponse(books_json, safe=False)
+
+
+def book_info(request, book_id):
+    book_selected = get_object_or_404(Book, pk=book_id)
+    book_form = BookForm(instance=book_selected)
+    return render(request, 'books/book_info.template.html', {
+        "form": book_form,
+        "book": book_selected
+    })

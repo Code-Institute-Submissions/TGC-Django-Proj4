@@ -1,0 +1,183 @@
+{% extends 'base.template.html' %}
+{% load static %}
+{% load cloudinary %}
+{% load mathfilters %}
+{% load crispy_forms_tags %}
+
+{%block title%}RPG Books{%endblock%}
+
+{%block css%}
+<style>
+.carousel-indicators .active{
+    background-color: red;
+}
+
+.carousel-indicators li{
+    background-color: black;
+}
+
+.desc_text h6{
+    font-size: 1rem;
+    text-align: center;
+    background: rgba(25,25,25,1);
+    border: 1px solid rgba(150,150,150,1.0);
+    color: antiquewhite;
+    letter-spacing: 0.2rem;
+    font-family: 'MedievalSharp', cursive;
+    font-weight: bold;
+}
+
+.desc_text{
+    font-size: 0.8rem;
+    text-align: center;
+    background: rgba(25,25,25,0.8);
+    border: 1px solid rgba(150,150,150,1.0);
+    color: antiquewhite;
+    letter-spacing: 0.1rem;
+}
+
+.preview_item:hover {
+    transform: scale(1.1);
+}
+
+.price_cart,
+.tech_details {
+    border: 1px solid rgba(150,150,150,1.0);
+    background: rgba(25,25,25,0.8);
+}
+
+.item_price {
+    font-family: 'MedievalSharp', cursive;
+    color: antiquewhite;
+    letter-spacing: 0.2rem;
+    font-size: 1.2rem;
+    font-weight: bolder;
+}
+
+.vats {
+    font-family: 'El Messiri', sans-serif;
+    color: antiquewhite;
+    letter-spacing: 0.2rem;
+    font-size: 0.6rem;
+}
+
+.tech_details h6 {
+    font-family: 'MedievalSharp', cursive;
+    color: antiquewhite;
+    letter-spacing: 0.2rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(150,150,150,1.0);
+}
+
+.tech_details_label {
+    font-family: 'MedievalSharp', cursive;
+    color: antiquewhite;
+    letter-spacing: 0.2rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-align: left;
+}
+
+.tech_details_info {
+    font-family: 'El Messiri', sans-serif;
+    color: antiquewhite;
+    letter-spacing: 0.1rem;
+    font-size: 0.8rem;
+    text-align: right;
+}
+
+</style>
+{%endblock%}
+
+{%block js%}{%endblock%}
+
+{%block content%}
+{% comment %} <div class="container">
+    <form method="POST">
+        {% csrf_token %}
+        {{form|crispy}}
+    </form>
+</div> {% endcomment %}
+
+<div class="container d-flex justify-content-around">
+    <div class="column1 col-6 d-flex flex-column justify-content-center text-center mt-4">
+        <div class="book_cover">
+            {% cloudinary book.cover width=200 height=300 crop="fill" %}
+        </div>
+        <div class="book_description my-3 d-flex flex-column justify-content-center align-items-center">
+            <div id="carouselExampleIndicators" class="carousel slide col-8" data-ride="carousel">
+                <ol class="carousel-indicators mt-1 mb-0">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item preview_item active">
+                        <div class="d-block w-100 ">{% cloudinary book.preview_1 width=100 height=150 crop="fill" %}</div>
+                    </div>
+                    <div class="carousel-item preview_item">
+                        <div class="d-block w-100 ">{% cloudinary book.preview_2 width=100 height=150 crop="fill" %}</div>
+                    </div>
+                    <div class="carousel-item preview_item">
+                        <div class="d-block w-100 ">{% cloudinary book.preview_3 width=100 height=150 crop="fill" %}</div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <div class="desc_text mt-4">
+                <h6>Description</h6>
+                <p>{{book.description}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="column2 col-6 d-flex flex-column justify-content-center text-center">
+        <div class="price_cart d-flex py-3">
+            <div class="col-6">
+                <div class="item_price">USD {{book.price|div:100}}</div>
+                <div class="vats">VATS may apply</div>
+            </div>
+            <div class="col-6">
+                <div class="add_to_cart">
+                    <a href="#" class="btn btn-lg btn-success"><i class="fas fa-shopping-cart"></i>  Add to Cart</a>
+                </div>
+            </div>
+        </div>
+        <div class="tech_details d-flex flex-column justify-content-around align-items-center py-3 my-1">
+            <div class="px-2 mb-2">
+                <h6>TECHNICAL DETAILS</h6>
+            </div>
+            <div class="d-flex">
+                <div class="d-flex flex-column tech_details_label">
+                    Title:<br/>
+                    ISBN:<br/>
+                    Series:<br/>
+                    Release Date:<br/>
+                    Genre:<br/>
+                    Tags:<br/>
+                </div>
+                <div class="d-flex flex-column tech_details_info">
+                    {{book.title}}<br/>
+                    {{book.ISBN}}<br/>
+                    {{book.category}}<br/>
+                    {{book.release_date}}<br/>
+                    {{book.genre}}<br/>
+                    {{book.tags}}<br/>
+                </div>
+            </div>
+        </div>
+        <div class="ratings_reviews">
+        </div>
+    </div>
+</div>
+
+
+
+{%endblock%}
