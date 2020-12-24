@@ -74,29 +74,95 @@ $(document).ready(function(){
     });
     return ret;
     }
-    $(function () {
-    $('#form input[type="file"]')
+
+    $('#cover input[type="file"]')
     .cloudinary_fileupload({
-        dropZone: '#form',
+        dropZone: '#cover',
         start: function () {
-        $('.status_value').text('Starting direct upload...');
+        $('#cover_status_value').text('Starting direct upload...');
         },
         progress: function () {
-        $('.status_value').text('Uploading...');
+        $('#cover_status_value').text('Uploading...');
         },
     })
     .on('cloudinarydone', function (e, data) {
-        $('.status_value').text('Updating backend... submit to complete...');
+        $('#cover_status_value').text('Updating backend... submit to complete...');
         var info = $('<div class="uploaded_info"/>');
         $(info).append($('<div class="image d-flex justify-content-center"/>').append(
             $.cloudinary.image(data.result.public_id, {
             format: data.result.format, width: 150, height: 200, crop: "fit"
             })
         ));
-        $('#uploaded_info_holder').append(info);
-        $('#form  input[type="file"]').parent().parent().remove();
-    });
-    });
+        $('#cover').append(info);
+        $('#cover input[type="file"]').parent().parent().remove();
+        });
+
+    
+    $('#preview1 input[type="file"]')
+    .cloudinary_fileupload({
+        dropZone: '#preview1',
+        start: function () {
+        $('#preview1_status_value').text('Starting direct upload...');
+        },
+        progress: function () {
+        $('#preview1_status_value').text('Uploading...');
+        },
+    })
+    .on('cloudinarydone', function (e, data) {
+        $('#preview1_status_value').text('Updating backend... submit to complete...');
+        var info1 = $('<div class="uploaded_info_1"/>');
+        $(info1).append($('<div class="image d-flex justify-content-center"/>').append(
+            $.cloudinary.image(data.result.public_id, {
+            format: data.result.format, width: 150, height: 200, crop: "fit"
+            })
+        ));
+        $('#preview1').append(info);
+        $('#preview1 input[type="file"]').parent().parent().remove();
+        });
+
+    $('#preview2 input[type="file"]')
+    .cloudinary_fileupload({
+        dropZone: '#preview2',
+        start: function () {
+        $('#preview2_status_value').text('Starting direct upload...');
+        },
+        progress: function () {
+        $('#preview2_status_value').text('Uploading...');
+        },
+    })
+    .on('cloudinarydone', function (e, data) {
+        $('#preview2_status_value').text('Updating backend... submit to complete...');
+        var info1 = $('<div class="uploaded_info"/>');
+        $(info1).append($('<div class="image d-flex justify-content-center"/>').append(
+            $.cloudinary.image(data.result.public_id, {
+            format: data.result.format, width: 150, height: 200, crop: "fit"
+            })
+        ));
+        $('#preview2').append(info);
+        $('#preview2 input[type="file"]').parent().parent().remove();
+        });    
+    
+    $('#preview3 input[type="file"]')
+    .cloudinary_fileupload({
+        dropZone: '#preview3',
+        start: function () {
+        $('#preview3_status_value').text('Starting direct upload...');
+        },
+        progress: function () {
+        $('#preview3_status_value').text('Uploading...');
+        },
+    })
+    .on('cloudinarydone', function (e, data) {
+        $('#preview3_status_value').text('Updating backend... submit to complete...');
+        var info1 = $('<div class="uploaded_info"/>');
+        $(info1).append($('<div class="image d-flex justify-content-center"/>').append(
+            $.cloudinary.image(data.result.public_id, {
+            format: data.result.format, width: 150, height: 200, crop: "fit"
+            })
+        ));
+        $('#preview3').append(info);
+        $('#preview3 input[type="file"]').parent().parent().remove();
+        });
 
 
 })
@@ -133,11 +199,11 @@ $(document).ready(function(){
                 <div class="form-group col-md-6 mb-0">
                     {{ form.price|as_crispy_field }}
                 </div>
-                <div class="form-group col-md-6 mb-0" id="uploaded_info_holder">
+                <div class="form-group col-md-6 mb-0" id="cover">
                     {{ form.cover|as_crispy_field }}
                     <small id="cover_text" class="form-text text-muted">
                         <div class="status ml-3 my-0">
-                            <h6>Status</h6><span class="status_value">Idle</span>
+                            <h6>Status</h6><span id="cover_status_value">Idle</span>
                         </div>
                     </small>
                 </div>
@@ -159,6 +225,32 @@ $(document).ready(function(){
             <div class="form-row mb-2">
                 <div class="form-group col-md-12 mb-0">
                     {{ form.description|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-row mb-2">
+                <div class="form-group col-md-4 mb-0" id="preview1">
+                    {{ form.preview_1|as_crispy_field }}
+                    <small id="preview1_text" class="form-text text-muted">
+                        <div class="status ml-3 my-0">
+                            <h6>Status</h6><span id="preview1_status_value">Idle</span>
+                        </div>
+                    </small>
+                </div>
+                <div class="form-group col-md-4 mb-0 preview_2" id="preview2">
+                    {{ form.preview_2|as_crispy_field }}
+                <small class="form-text text-muted">
+                    <div class="status ml-3 my-0">
+                        <h6>Status</h6><span id="preview2_status_value">Idle</span>
+                    </div>
+                </small>
+                </div>
+                <div class="form-group col-md-4 mb-0" id="preview3">
+                    {{ form.preview_3|as_crispy_field }}
+                    <small class="form-text text-muted">
+                        <div class="status ml-3 my-0">
+                            <h6>Status</h6><span id="preview3_status_value">Idle</span>
+                        </div>
+                    </small>
                 </div>
             </div>
             <div class="form-row mb-5">

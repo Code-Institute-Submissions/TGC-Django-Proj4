@@ -12,8 +12,9 @@
     background-color: red;
 }
 
-.carousel-indicators li{
-    background-color: black;
+.carousel-indicators li,
+.modal-content{
+    background-color: rgba(25,25,25,1);
 }
 
 .desc_text h6{
@@ -41,12 +42,14 @@
 }
 
 .price_cart,
-.tech_details {
+.tech_details,
+.reviews_wrapper {
     border: 1px solid rgba(150,150,150,1.0);
     background: rgba(25,25,25,0.8);
 }
 
-.item_price {
+.item_price,
+.modal-header span {
     font-family: 'MedievalSharp', cursive;
     color: antiquewhite;
     letter-spacing: 0.2rem;
@@ -61,7 +64,8 @@
     font-size: 0.6rem;
 }
 
-.tech_details h6 {
+.tech_details h6,
+.review_title h6 {
     font-family: 'MedievalSharp', cursive;
     color: antiquewhite;
     letter-spacing: 0.2rem;
@@ -70,7 +74,8 @@
     border-bottom: 1px solid rgba(150,150,150,1.0);
 }
 
-.tech_details_label {
+.tech_details_label,
+.ratings_reviews h6 {
     font-family: 'MedievalSharp', cursive;
     color: antiquewhite;
     letter-spacing: 0.2rem;
@@ -85,6 +90,21 @@
     letter-spacing: 0.1rem;
     font-size: 0.8rem;
     text-align: right;
+}
+
+.ratings_reviews {
+    font-family: 'El Messiri', sans-serif;
+    color: antiquewhite;
+    letter-spacing: 0.2rem;
+    font-size: 0.8rem;
+    text-align: left;
+}
+
+.post_review,
+.edit_book{
+    font-family: 'El Messiri', sans-serif;
+    letter-spacing: 0.2rem;
+    font-size: 0.6rem;
 }
 
 </style>
@@ -114,13 +134,13 @@
                 </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item preview_item active">
-                        <div class="d-block w-100 ">{% cloudinary book.preview_1 width=100 height=150 crop="fill" %}</div>
+                        <div class="d-block w-100 ">{% cloudinary book.preview_1 width=80 height=120 crop="fill" %}</div>
                     </div>
                     <div class="carousel-item preview_item">
-                        <div class="d-block w-100 ">{% cloudinary book.preview_2 width=100 height=150 crop="fill" %}</div>
+                        <div class="d-block w-100 ">{% cloudinary book.preview_2 width=80 height=120 crop="fill" %}</div>
                     </div>
                     <div class="carousel-item preview_item">
-                        <div class="d-block w-100 ">{% cloudinary book.preview_3 width=100 height=150 crop="fill" %}</div>
+                        <div class="d-block w-100 ">{% cloudinary book.preview_3 width=80 height=120 crop="fill" %}</div>
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -134,7 +154,7 @@
             </div>
             <div class="desc_text mt-4">
                 <h6>Description</h6>
-                <p>{{book.description}}</p>
+                <p class="p-2">{{book.description}}</p>
             </div>
         </div>
     </div>
@@ -146,13 +166,16 @@
             </div>
             <div class="col-6">
                 <div class="add_to_cart">
-                    <a href="#" class="btn btn-lg btn-success"><i class="fas fa-shopping-cart"></i>  Add to Cart</a>
+                    <a href="{% url 'add_to_cart' book_id=book.id %}" class="btn btn-lg btn-success"><i class="fas fa-shopping-cart"></i>  Add to Cart</a>
                 </div>
             </div>
         </div>
         <div class="tech_details d-flex flex-column justify-content-around align-items-center py-3 my-1">
-            <div class="px-2 mb-2">
-                <h6>TECHNICAL DETAILS</h6>
+            <div class="px-2 mb-2 d-flex justify-content-between align-items-center">
+                <h6 class="text-left">TECHNICAL DETAILS</h6>
+                {% if user.is_authenticated %}
+                    <button type="button" class="btn btn-outline-info btn-sm edit_book ml-5">Edit book</button>
+                {%endif%}
             </div>
             <div class="d-flex">
                 <div class="d-flex flex-column tech_details_label">
@@ -173,7 +196,48 @@
                 </div>
             </div>
         </div>
-        <div class="ratings_reviews">
+        <div class="ratings_reviews mt-4 d-flex flex-column">
+            <div class="d-flex justify-content-between">
+                <h6 class="text-left">See what others are say...</h6>
+                <button type="button" class="btn btn-outline-info btn-sm post_review" data-toggle="modal" data-target="#new_review">Post Review</button>
+
+                <!--New Review Post Modal-->
+                <div class="modal fade" id="new_review" aria-labelledby="new_review_label" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="new_review_label">Post a New Review</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    {{review_form|crispy}}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <input type="submit" class="btn btn-primary" value="Post New Review">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="reviews_wrapper mt-2 overflow-auto" style="height:300px;">
+                {% for review in reviews %}
+                <div>   
+                    <div class="review_title d-flex justify-content-between px-2 pt-2">
+                        <h6>{{review.user}}</h6>
+                        <h6>{{review.date}}</h6>
+                    </div>
+                    <div class="review_content d-flex justify-content-center align-items-center"> 
+                        <p class="px-2 pt-1">{{review.content}} --- {{review.rating}} out of 5<p>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
         </div>
     </div>
 </div>

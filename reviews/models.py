@@ -10,6 +10,7 @@ class Review(models.Model):
     content = models.TextField(blank=False)
     date = models.DateField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField(blank=False)
 
     def __str__(self):
         return self.title

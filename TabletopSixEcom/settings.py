@@ -23,6 +23,9 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
+STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+ENDPOINT_SECRET = os.environ.get('ENDPOINT_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -47,10 +50,13 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'stripe',
 
     # My Apps
     'books',
     'reviews',
+    'cart',
+    'checkout',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +83,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'cart.contexts.cart_contents',
             ],
         },
     },
@@ -121,7 +128,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-SITE_ID = 2
+SITE_ID = 3
 
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
@@ -163,3 +170,6 @@ CLOUDINARY = {
 }
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
+

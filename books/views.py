@@ -1,7 +1,9 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404, reverse
 from django.template.loader import render_to_string
 from .models import Book, Category, Genre, Tag
+from reviews.models import Review
 from .forms import BookForm
+from reviews.forms import ReviewForm
 from django.db.models import Q
 from django.http import JsonResponse
 import json
@@ -18,11 +20,15 @@ def redirect_view(request):
 
 def homepage(request):
     books = Book.objects.all()
-    print(books)
     books_nav = books.order_by('-release_date')[:2]
+    cart = request.session.get('shopping_cart', {})
+    grand_total = 0
+    for item in cart:
+        grand_total += cart[item]['subtotal']
     return render(request, 'books/homepage.template.html', {
         'books': books,
         'books_nav': books_nav,
+        'grand_total': grand_total,
     })
 
 
@@ -31,18 +37,24 @@ def index(request):
     tags = Tag.objects.all()
     books = Book.objects.all()
     books_nav = Book.objects.order_by('-release_date')[:2]
+    cart = request.session.get('shopping_cart', {})
+    grand_total = 0
+    for item in cart:
+        grand_total += cart[item]['subtotal']
 
     return render(request, 'books/index.template.html', {
         'genre': genre,
         'tags': tags,
         'books': books,
         'books_nav': books_nav,
+        'grand_total': grand_total,
     })
+
 
 @login_required
 def create_book(request):
     if request.method == "POST":
-        create_form = BookForm(request.POST)
+        create_form = BookForm(request.POST, request.FILES)
         if create_form.is_valid():
             create_form.save()
             return redirect(reverse("Homepage"))
@@ -80,11 +92,36 @@ def genre_filter(request):
         })
         return HttpResponse(html)
 
-
+@login_required
 def book_info(request, book_id):
+    books = Book.objects.all()
+    books_nav = books.order_by('-release_date')[:2]
+    cart = request.session.get('shopping_cart', {})
+    grand_total = 0
+    for item in cart:
+        grand_total += cart[item]['subtotal']
+
     book_selected = get_object_or_404(Book, pk=book_id)
     book_form = BookForm(instance=book_selected)
+    review_form = ReviewForm(request.POST)
+    reviews = Review.objects.filter(book=book_id)
+    
+    if request.method == "POST":
+        if review_form.is_valid():
+            review = review_form.save(commit=False)
+            review.user = request.user
+            review.book = book_selected
+            review.save()
+            return redirect(book_info, book_id=book_id)
+        else:
+            return '/accounts/login'
+       
+
     return render(request, 'books/book_info.template.html', {
+        "books_nav": books_nav,
         "form": book_form,
-        "book": book_selected
+        "book": book_selected,
+        "reviews": reviews,
+        "review_form": review_form,
+        "grand_total": grand_total,
     })

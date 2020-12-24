@@ -1,0 +1,74 @@
+{% extends 'base.template.html' %}
+{% load static %}
+{% load cloudinary %}
+{% load mathfilters %}
+
+{%block title%}Current Shopping Cart{%endblock%}
+
+{%block css%}
+<script>
+</script>
+{%endblock%}
+{%block js%}{%endblock%}
+
+{%block content%}
+<div class="container">
+    <div class="d-flex flex-row justify-content-between align-items-center">
+        <div>
+            <h1 class="mt-5 mb-2">Your Cart</h1>
+        </div>
+        <div>
+            <a href="{% url 'checkout' %}" class="btn btn-sm btn-success">Checkout</a>
+        </div>
+    </div>
+    <div id="purchase_order">
+        <table class="table table-hover table-dark">
+            <thead class="thead-light" id="table_head">
+                <tr>
+                    <th scope="col">Item ID</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Subtotal</th>
+                </tr>
+            </thead>
+            <tbody class="tbody-light" id="table_body">
+                {% for key, item in shopping_cart.items %}
+                <tr>
+                    <th scope="row">
+                        <div class="d-flex justify-content-around">
+                            <div>
+                                {{item.id}}
+                            </div>
+                            <div>
+                                <a href="{% url 'remove_from_cart' book_id=item.id %}" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+                            </div>
+                        </div>
+                    </th>
+                    <td>{{item.category}} - {{item.title}}</td>
+                    <td>$ {{item.price|div:100}}</td>
+                    <td class="py-1"> 
+                        <div class="d-flex flex-row justify-content-around align-items-center">
+                            <div>{{item.qty}}</div>
+                            <div class="d-flex flex-column text-right">
+                                <a href="{% url 'add_to_cart' book_id=item.id %}" class="text-success"><i class="fas fa-plus"></i></a>
+                                <a href="{% url 'minus_from_cart' book_id=item.id %}" class="text-warning"><i class="fas fa-minus"></i></a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>$ {{item.subtotal|div:100}}</td>
+                </tr>
+                {% endfor %}
+                <tr class="table-info text-dark">
+                    <th></th>
+                    <td></td>
+                    <td></td>
+                    <td>Grand Total: </td>
+                    <td class="font-weight-bolder">$ {{grand_total|div:100}} </td>
+                </tr>
+            </tbody>   
+        </table>
+    </div>
+</div>
+
+{%endblock%}

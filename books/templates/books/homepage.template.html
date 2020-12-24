@@ -30,7 +30,7 @@
                 </button>
                 <div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 m-0">
                     <p class="m-0 pl-2">Price: ${{book.price|div:100}}</p>
-                    <a href="#" class="btn btn-sm btn-info">More Info</a>
+                    <a href="{% url 'book_info' book_id=book.id %}" class="btn btn-sm btn-info">More Info</a>
                 </div>
             </div>
             {% endfor %}

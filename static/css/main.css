@@ -23,7 +23,8 @@ h1, h2, h3, h4 {
     background-color: rgba(0,0,0,0.9);
 }
 
-#nav_cart a{
+#nav_cart a,
+#nav_cart button{
     font-size: 0.75rem;
     background: rgb(50,50,50);
     color: antiquewhite;
