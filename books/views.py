@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 import json
 from django.core import serializers
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 
 # Create your views here.
@@ -57,6 +58,7 @@ def create_book(request):
         create_form = BookForm(request.POST, request.FILES)
         if create_form.is_valid():
             create_form.save()
+            messages.success(request, f"New book {create_form.cleaned_data['title']} has been created!")
             return redirect(reverse("Homepage"))
         else:
             return render(request, 'books/create_book.template.html', {

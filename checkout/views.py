@@ -3,6 +3,7 @@ from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 import stripe
 import json
 
@@ -77,11 +78,13 @@ def payment_compeleted(request):
 
 def checkout_success(request):
     request.session["shopping_cart"] = {}
+    messages.success(request, "Payment Complete! Thank you for purchase!")
     return redirect(reverse("homepage"))
 
 
 def checkout_cancelled(request):
-    return HttpResponse("Checkout Cancelled!")
+    messages.error(request, "Payment Cannot be Completed !!! Kindly check card details !")
+    return redirect(reverse("view_cart"))
 
 
 def handle_payment(session):

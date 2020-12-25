@@ -18,6 +18,8 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=El+Messiri&family=MedievalSharp&display=swap" rel="stylesheet">
+    <!-- Toastr Messages -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">   
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static '/css/main.css' %}">
     {%block css%}{%endblock%}
@@ -42,7 +44,7 @@
                     {% endif %}
                 </div>
                 <div> 
-                    <a class="btn btn-sm" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> Cart <span class="badge badge-success">$ {{grand_total|div:100}}</span></a>
+                    <a class="btn btn-sm" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> Cart <span class="badge badge-success">$ {{grand_total|div:100|floatformat:2}}</span></a>
                 </div>
             </div>
         </div>
@@ -194,7 +196,15 @@
     <!-- Font Awesome JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"></script>
     <!-- Toastr JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     {%block js%}{%endblock%}
+    <script>
+           {% if messages %}
+                {% for message in messages %} 
+                    toastr.{{ message.tags }}("{{ message }}");
+                {% endfor %} 
+        {% endif %}
+    </script>
+
   </body>
 </html>

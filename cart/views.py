@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
 from django.contrib import messages
 
-from books.models import Book, Category
+from books.models import Book
 
 # Create your views here.
 
@@ -19,13 +19,15 @@ def add_to_cart(request, book_id):
             'subtotal': book.price,
         }
         request.session['shopping_cart'] = cart
-        messages.success(request, "Book has been added to cart!")
+        messages.success(
+            request, f"Book - {book.title} has been added to cart!")
         return redirect(reverse('view_cart'))
     else:
         book = get_object_or_404(Book, pk=book_id)
         cart[book_id]['qty'] += 1
         cart[book_id]['subtotal'] += book.price
         request.session['shopping_cart'] = cart
+        messages.success(request, f"Book {book.title} quantity increased by 1")
         return redirect(reverse('view_cart'))
 
 
@@ -51,10 +53,12 @@ def minus_from_cart(request, book_id):
         if cart[book_id]['qty'] == 0:
             del cart[book_id]
             request.session["shopping_cart"] = cart
-            messages.success(request, "Item removed from cart successfully!")
-            return redirect(reverse('homepage'))
+            messages.warning(
+                request, f"Item {book.title} removed from cart !")
+            return redirect(reverse('view_cart'))
         else:
-            messages.success(request, "Reduce qty of item by 1 successfully!")
+            messages.warning(
+                request, f"Reduce {book.title} quantity by 1 !")
             return redirect(reverse('view_cart'))
     else:
         return redirect(reverse('homepage'))
@@ -63,7 +67,8 @@ def minus_from_cart(request, book_id):
 def remove_from_cart(request, book_id):
     cart = request.session.get("shopping_cart", {})
     if book_id in cart:
+        book = get_object_or_404(Book, pk=book_id)
         del cart[book_id]
         request.session["shopping_cart"] = cart
-        messages.success(request, "Item removed from cart successfully!")
-        return redirect(reverse('homepage'))
+        messages.error(request, f"Item {book.title} removed from cart !")
+        return redirect(reverse('view_cart'))
