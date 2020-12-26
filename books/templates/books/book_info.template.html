@@ -67,6 +67,7 @@
                 {% if user.is_superuser %}
                     <a href="{% url 'edit_book' book_id=book.id %}" class="btn btn-outline-primary btn-sm edit_book ml-5">Edit book</a>
                     <button type="button" class="btn btn-outline-danger btn-sm delete_book ml-1" data-toggle="modal" data-target="#delete_book">Delete Book</button>
+                    
                     <!-- Delete Book Modal -->
                     <div class="modal fade" id="delete_book" aria-labelledby="new_review_label" aria-hidden="true">
                         <div class="modal-dialog">
