@@ -12,8 +12,8 @@
     <div class="container d-flex flex-column justify-content-center align-items-center py-3 text-center" id="hero_text">
         <h1>Tabletop books and tools for every RPG Player</h1>
         <h5>Our Marketplace provides high quality, affordable, tabletop games accessories crafted by talented creators around the world!</h5>
-        <form class="col-12 d-flex flex-column justify-content-center align-items-center py-3">
-            <input type="text" class="form-control col-lg-8 my-3" id="hero_search" placeholder="Search for Books/Miniatures/Assets/Dice... etc...">
+        <form class="col-12 d-flex flex-column justify-content-center align-items-center py-3" action="{% url 'show_books' %}">
+            <input type="text" class="form-control col-lg-8 my-3" id="hero_search" placeholder="Search for Books/Miniatures/Assets/Dice... etc..." name="search">
             <a href="#" class="btn btn-lg btn-success" id="hero_search_btn>">Search Thousands of Masterpieces</a>
         </form>
     </div>

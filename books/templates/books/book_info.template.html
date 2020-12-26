@@ -173,7 +173,7 @@
         <div class="tech_details d-flex flex-column justify-content-around align-items-center py-3 my-1">
             <div class="px-2 mb-2 d-flex justify-content-between align-items-center">
                 <h6 class="text-left">TECHNICAL DETAILS</h6>
-                {% if user.is_authenticated %}
+                {% if user.is_superuser %}
                     <button type="button" class="btn btn-outline-info btn-sm edit_book ml-5">Edit book</button>
                 {%endif%}
             </div>
@@ -229,8 +229,13 @@
                 {% for review in reviews %}
                 <div>   
                     <div class="review_title d-flex justify-content-between px-2 pt-2">
-                        <h6>{{review.user}}</h6>
-                        <h6>{{review.date}}</h6>
+                        <div>
+                            <h6>{{review.user}}</h6>
+                        </div>
+                        <div class="d-flex">
+                            <h6 class="mr-3">{{review.date}}</h6>
+                            <a href="{% url 'remove_comment' username=review.user book_id=book.id %}" class="text-danger"><i class="fas fa-trash-alt"></i></a>
+                        </div>
                     </div>
                     <div class="review_content d-flex justify-content-center align-items-center"> 
                         <p class="px-2 pt-1">{{review.content}} --- {{review.rating}} out of 5<p>

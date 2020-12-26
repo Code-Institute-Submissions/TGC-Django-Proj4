@@ -2,13 +2,14 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404, 
 from django.template.loader import render_to_string
 from .models import Book, Category, Genre, Tag
 from reviews.models import Review
-from .forms import BookForm
+from .forms import BookForm, SearchForm
 from reviews.forms import ReviewForm
 from django.db.models import Q
 from django.http import JsonResponse
 import json
 from django.core import serializers
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
 
 # Create your views here.
@@ -36,12 +37,18 @@ def homepage(request):
 def index(request):
     genre = Genre.objects.all()
     tags = Tag.objects.all()
-    books = Book.objects.all()
     books_nav = Book.objects.order_by('-release_date')[:2]
     cart = request.session.get('shopping_cart', {})
     grand_total = 0
     for item in cart:
         grand_total += cart[item]['subtotal']
+
+    search_query = request.GET.get('search', '')
+
+    if search_query:
+        books = Book.objects.filter(Q(title__icontains=search_query)|Q(category__title__icontains=search_query)|Q(genre__title__icontains=search_query))
+    else:
+        books = Book.objects.all()
 
     return render(request, 'books/index.template.html', {
         'genre': genre,
@@ -58,7 +65,8 @@ def create_book(request):
         create_form = BookForm(request.POST, request.FILES)
         if create_form.is_valid():
             create_form.save()
-            messages.success(request, f"New book {create_form.cleaned_data['title']} has been created!")
+            messages.success(
+                request, f"New book {create_form.cleaned_data['title']} has been created!")
             return redirect(reverse("Homepage"))
         else:
             return render(request, 'books/create_book.template.html', {
@@ -94,7 +102,7 @@ def genre_filter(request):
         })
         return HttpResponse(html)
 
-@login_required
+
 def book_info(request, book_id):
     books = Book.objects.all()
     books_nav = books.order_by('-release_date')[:2]
@@ -107,17 +115,19 @@ def book_info(request, book_id):
     book_form = BookForm(instance=book_selected)
     review_form = ReviewForm(request.POST)
     reviews = Review.objects.filter(book=book_id)
-    
+
     if request.method == "POST":
-        if review_form.is_valid():
-            review = review_form.save(commit=False)
-            review.user = request.user
-            review.book = book_selected
-            review.save()
-            return redirect(book_info, book_id=book_id)
+        if request.user.is_authenticated:
+            if review_form.is_valid():
+                review = review_form.save(commit=False)
+                review.user = request.user
+                review.book = book_selected
+                review.save()
+                messages.success(
+                    request, f"Review has been posted on {book_selected.title}")
+                return redirect('book_info', book_id=book_id)
         else:
-            return '/accounts/login'
-       
+            return redirect('account_login')
 
     return render(request, 'books/book_info.template.html', {
         "books_nav": books_nav,

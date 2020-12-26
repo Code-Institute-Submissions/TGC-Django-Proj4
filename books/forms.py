@@ -1,5 +1,5 @@
 from django import forms
-from .models import Book
+from .models import Book, Genre, Tag
 from cloudinary.forms import CloudinaryJsFileField
 
 
@@ -15,5 +15,10 @@ class BookForm(forms.ModelForm):
         model = Book
         fields = ('__all__')
 
-    
 
+class SearchForm(forms.ModelForm):
+    title = forms.CharField(max_length=100, required=False)
+    genre = forms.ModelChoiceField(
+        queryset=Genre.objects.all(), required=False)
+    tag = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(), required=False)
