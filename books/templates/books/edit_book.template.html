@@ -4,9 +4,9 @@
 {% load mathfilters %}
 {% load crispy_forms_tags %}
 
-{%block title%}Create New Book{%endblock%}
+{%block title%}Edit {{book.title}} Book{%endblock%}
 
-{%block css%}<link rel="stylesheet" href="{% static '/css/create_book.css' %}">{%endblock%}
+{%block css%}<link rel="stylesheet" href="{% static '/css/edit_book.css' %}">{%endblock%}
 
 {%block js%}
 {% cloudinary_includes %}
@@ -134,7 +134,7 @@ $(document).ready(function(){
 {%block content%}
 <div class="container-fluid">
     <div class="container d-flex flex-column justify-content-center align-items-center" id="form">
-        <h2 class="my-5 text-center col-md-12">Create a NEW Book Product</h2>
+        <h2 class="my-5 text-center col-md-12">Editing {{book.title}} Book</h2>
         <form method="POST" class="col-md-8" id="create_form" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-row mb-2">
@@ -218,7 +218,7 @@ $(document).ready(function(){
             <div class="form-row mb-5">
                 <div class="form-group col-md-12 mb-0 d-flex justify-content-center align-items-center">
                     <a href="{% url 'show_books' %}" class="btn btn-lg btn-outline-warning mx-3">Cancel</a>
-                    <input type="submit" class="btn btn-lg btn-outline-primary">
+                    <input type="submit" class="btn btn-lg btn-outline-primary mx-3">
                 </div>
             </div>
         </form>

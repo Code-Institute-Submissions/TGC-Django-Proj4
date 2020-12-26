@@ -1,4 +1,8 @@
-from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.shortcuts import (
+    render,
+    redirect,
+    get_object_or_404,
+    reverse)
 from django.contrib import messages
 
 from books.models import Book
@@ -7,31 +11,37 @@ from books.models import Book
 
 
 def add_to_cart(request, book_id):
-    cart = request.session.get('shopping_cart', {})
-    if book_id not in cart:
-        book = get_object_or_404(Book, pk=book_id)
-        cart[book_id] = {
-            'id': book_id,
-            'title': book.title,
-            'category': str(book.category),
-            'price': book.price,
-            'qty': 1,
-            'subtotal': book.price,
-        }
-        request.session['shopping_cart'] = cart
-        messages.success(
-            request, f"Book - {book.title} has been added to cart!")
-        return redirect(reverse('view_cart'))
+    if request.user.is_authenticated:
+        cart = request.session.get('shopping_cart', {})
+        if book_id not in cart:
+            book = get_object_or_404(Book, pk=book_id)
+            cart[book_id] = {
+                'id': book_id,
+                'title': book.title,
+                'category': str(book.category),
+                'price': book.price,
+                'qty': 1,
+                'subtotal': book.price,
+            }
+            request.session['shopping_cart'] = cart
+            messages.success(
+                request, f"Book - {book.title} has been added to cart!")
+            return redirect(reverse('view_cart'))
+        else:
+            book = get_object_or_404(Book, pk=book_id)
+            cart[book_id]['qty'] += 1
+            cart[book_id]['subtotal'] += book.price
+            request.session['shopping_cart'] = cart
+            messages.success(
+                request, f"Book {book.title} quantity increased by 1")
+            return redirect(reverse('view_cart'))
     else:
-        book = get_object_or_404(Book, pk=book_id)
-        cart[book_id]['qty'] += 1
-        cart[book_id]['subtotal'] += book.price
-        request.session['shopping_cart'] = cart
-        messages.success(request, f"Book {book.title} quantity increased by 1")
-        return redirect(reverse('view_cart'))
+        messages.warning(request, "Kindly log in to purchase items !")
+        return redirect('account_login')
 
 
 def view_cart(request):
+    books_nav = Book.objects.order_by('-release_date')[:2]
     cart = request.session.get('shopping_cart', {})
     grand_total = 0
     for item in cart:
@@ -40,6 +50,7 @@ def view_cart(request):
     return render(request, 'cart/view_cart.template.html', {
         'shopping_cart': cart,
         'grand_total': grand_total,
+        'books_nav': books_nav,
     })
 
 

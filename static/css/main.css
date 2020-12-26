@@ -24,10 +24,19 @@ h1, h2, h3, h4 {
 }
 
 #nav_cart a,
-#nav_cart button{
-    font-size: 0.75rem;
+#nav_cart button,
+#cart a{
+    font-size: 0.85rem;
     background: rgb(50,50,50);
     color: antiquewhite;
+}
+
+#cart {
+    position: fixed;
+    top: 0;
+    right: 2rem;
+    width: 2rem;
+    z-index: 2;
 }
 
 #main_logo {
@@ -43,6 +52,10 @@ h1, h2, h3, h4 {
     font-size: 1.2rem;
     text-decoration: none;
     color: antiquewhite;
+}
+
+#nav_home {
+    display: none;
 }
 
 .dropdown-menu {
@@ -111,5 +124,23 @@ h1, h2, h3, h4 {
         position: absolute;
     }
 
+    #nav_home {
+        display: block;
+    }
+
+    .dpd-item {
+        font-size: 0.8rem;
+        padding: 0 0.5rem;
+    }
+
+    #cart {
+    right: 1.5rem;
+    width: 2rem;
+    }
+
+    .menu li a {
+        font-size: 1rem !important;
+        word-wrap: break-word;
+    }
 
 }

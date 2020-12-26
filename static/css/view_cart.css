@@ -1,0 +1,21 @@
+#checkout_btn{
+    letter-spacing: 0.1rem;
+}
+
+@media only screen and (max-width: 768px){
+    th {
+        font-size: 0.7rem;
+    }
+
+    td {
+        font-size: 0.7rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    #checkout_btn {
+        font-size: 0.8rem;
+    }
+}

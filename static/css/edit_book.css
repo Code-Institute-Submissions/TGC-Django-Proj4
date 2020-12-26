@@ -1,0 +1,31 @@
+#create_form label{
+    color: antiquewhite;
+}
+
+#div_id_reviews,
+#div_id_cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1rem;
+    color: antiquewhite;
+}
+
+#div_id_reviews div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#div_id_cover {
+    margin-bottom: 0;
+}
+
+.status {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color:antiquewhite;
+}

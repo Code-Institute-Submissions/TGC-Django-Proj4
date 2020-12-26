@@ -10,6 +10,9 @@ class BookForm(forms.ModelForm):
                                 widget=forms.RadioSelect(attrs={
                                     'class': 'form-inline'}))
     cover = CloudinaryJsFileField()
+    preview_1 = CloudinaryJsFileField()
+    preview_2 = CloudinaryJsFileField()
+    preview_3 = CloudinaryJsFileField()
 
     class Meta:
         model = Book

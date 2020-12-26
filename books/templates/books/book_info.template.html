@@ -4,124 +4,15 @@
 {% load mathfilters %}
 {% load crispy_forms_tags %}
 
-{%block title%}RPG Books{%endblock%}
+{%block title%}{{book.title}} Info{%endblock%}
 
-{%block css%}
-<style>
-.carousel-indicators .active{
-    background-color: red;
-}
-
-.carousel-indicators li,
-.modal-content{
-    background-color: rgba(25,25,25,1);
-}
-
-.desc_text h6{
-    font-size: 1rem;
-    text-align: center;
-    background: rgba(25,25,25,1);
-    border: 1px solid rgba(150,150,150,1.0);
-    color: antiquewhite;
-    letter-spacing: 0.2rem;
-    font-family: 'MedievalSharp', cursive;
-    font-weight: bold;
-}
-
-.desc_text{
-    font-size: 0.8rem;
-    text-align: center;
-    background: rgba(25,25,25,0.8);
-    border: 1px solid rgba(150,150,150,1.0);
-    color: antiquewhite;
-    letter-spacing: 0.1rem;
-}
-
-.preview_item:hover {
-    transform: scale(1.1);
-}
-
-.price_cart,
-.tech_details,
-.reviews_wrapper {
-    border: 1px solid rgba(150,150,150,1.0);
-    background: rgba(25,25,25,0.8);
-}
-
-.item_price,
-.modal-header span {
-    font-family: 'MedievalSharp', cursive;
-    color: antiquewhite;
-    letter-spacing: 0.2rem;
-    font-size: 1.2rem;
-    font-weight: bolder;
-}
-
-.vats {
-    font-family: 'El Messiri', sans-serif;
-    color: antiquewhite;
-    letter-spacing: 0.2rem;
-    font-size: 0.6rem;
-}
-
-.tech_details h6,
-.review_title h6 {
-    font-family: 'MedievalSharp', cursive;
-    color: antiquewhite;
-    letter-spacing: 0.2rem;
-    font-size: 1rem;
-    font-weight: bold;
-    border-bottom: 1px solid rgba(150,150,150,1.0);
-}
-
-.tech_details_label,
-.ratings_reviews h6 {
-    font-family: 'MedievalSharp', cursive;
-    color: antiquewhite;
-    letter-spacing: 0.2rem;
-    font-size: 0.8rem;
-    font-weight: 500;
-    text-align: left;
-}
-
-.tech_details_info {
-    font-family: 'El Messiri', sans-serif;
-    color: antiquewhite;
-    letter-spacing: 0.1rem;
-    font-size: 0.8rem;
-    text-align: right;
-}
-
-.ratings_reviews {
-    font-family: 'El Messiri', sans-serif;
-    color: antiquewhite;
-    letter-spacing: 0.2rem;
-    font-size: 0.8rem;
-    text-align: left;
-}
-
-.post_review,
-.edit_book{
-    font-family: 'El Messiri', sans-serif;
-    letter-spacing: 0.2rem;
-    font-size: 0.6rem;
-}
-
-</style>
-{%endblock%}
+{%block css%}<link rel="stylesheet" href="{% static '/css/book_info.css' %}">{%endblock%}
 
 {%block js%}{%endblock%}
 
 {%block content%}
-{% comment %} <div class="container">
-    <form method="POST">
-        {% csrf_token %}
-        {{form|crispy}}
-    </form>
-</div> {% endcomment %}
-
-<div class="container d-flex justify-content-around">
-    <div class="column1 col-6 d-flex flex-column justify-content-center text-center mt-4">
+<div class="container d-flex justify-content-around align-items-center flex-wrap ">
+    <div class="column1 d-flex flex-column justify-content-center align-items-center text-center mt-4 flex-wrap" style="flex: 1;">
         <div class="book_cover">
             {% cloudinary book.cover width=200 height=300 crop="fill" %}
         </div>
@@ -158,8 +49,8 @@
             </div>
         </div>
     </div>
-    <div class="column2 col-6 d-flex flex-column justify-content-center text-center">
-        <div class="price_cart d-flex py-3">
+    <div class="column2 d-flex flex-column justify-content-center align-items-center text-center flex-wrap" style="flex: 1;">
+        <div class="price_cart d-flex py-3 my-2 col-11">
             <div class="col-6">
                 <div class="item_price">USD {{book.price|div:100}}</div>
                 <div class="vats">VATS may apply</div>
@@ -170,11 +61,33 @@
                 </div>
             </div>
         </div>
-        <div class="tech_details d-flex flex-column justify-content-around align-items-center py-3 my-1">
-            <div class="px-2 mb-2 d-flex justify-content-between align-items-center">
+        <div class="tech_details d-flex flex-column justify-content-around align-items-center py-3 my-1 col-11">
+            <div class="px-2 mb-2 d-flex justify-content-between align-items-center ">
                 <h6 class="text-left">TECHNICAL DETAILS</h6>
                 {% if user.is_superuser %}
-                    <button type="button" class="btn btn-outline-info btn-sm edit_book ml-5">Edit book</button>
+                    <a href="{% url 'edit_book' book_id=book.id %}" class="btn btn-outline-primary btn-sm edit_book ml-5">Edit book</a>
+                    <button type="button" class="btn btn-outline-danger btn-sm delete_book ml-1" data-toggle="modal" data-target="#delete_book">Delete Book</button>
+                    <!-- Delete Book Modal -->
+                    <div class="modal fade" id="delete_book" aria-labelledby="new_review_label" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="delete_book_title">Delete {{book.title}} Product?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                        Are you SURE?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <a href="{% url 'delete_book' book_id=book.id %}" class="btn btn-danger">DELETE</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 {%endif%}
             </div>
             <div class="d-flex">
@@ -192,11 +105,13 @@
                     {{book.category}}<br/>
                     {{book.release_date}}<br/>
                     {{book.genre}}<br/>
-                    {{book.tags}}<br/>
+                    {% for tag in book.tags.all %}
+                    {{tag}}
+                    {%endfor%}
                 </div>
             </div>
         </div>
-        <div class="ratings_reviews mt-4 d-flex flex-column">
+        <div class="ratings_reviews mt-4 d-flex flex-column col-11 p-0">
             <div class="d-flex justify-content-between">
                 <h6 class="text-left">See what others are say...</h6>
                 <button type="button" class="btn btn-outline-info btn-sm post_review" data-toggle="modal" data-target="#new_review">Post Review</button>

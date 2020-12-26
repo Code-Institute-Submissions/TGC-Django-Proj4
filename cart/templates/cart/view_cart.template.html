@@ -2,23 +2,18 @@
 {% load static %}
 {% load cloudinary %}
 {% load mathfilters %}
-
 {%block title%}Current Shopping Cart{%endblock%}
-
-{%block css%}
-<script>
-</script>
-{%endblock%}
+{%block css%}<link rel="stylesheet" href="{% static '/css/view_cart.css' %}">{%endblock%}
 {%block js%}{%endblock%}
 
 {%block content%}
 <div class="container">
-    <div class="d-flex flex-row justify-content-between align-items-center">
+    <div class="d-flex flex-row justify-content-between align-items-end">
         <div>
             <h1 class="mt-5 mb-2">Your Cart</h1>
         </div>
         <div>
-            <a href="{% url 'checkout' %}" class="btn btn-sm btn-success">Checkout</a>
+            <a href="{% url 'checkout' %}" class="btn btn-sm btn-success mb-3" id="checkout_btn">Checkout</a>
         </div>
     </div>
     <div id="purchase_order">

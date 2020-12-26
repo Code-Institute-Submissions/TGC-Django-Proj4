@@ -22,10 +22,10 @@
 <div class="container-fluid d-flex justify-content-center align-items-center p-2 pb-5" id="hp_books_wrapper">
     <div class="container d-flex flex-column justify-content-center align-items-center" id="hp_books">
         <h4 class="py-3 mb-4">TableTop Books and RPGs<span class="badge badge-danger ml-2">NEW!</span></h4>
-        <div class="d-flex flex-row flex-wrap mb-3">
+        <div class="container d-flex flex-row flex-wrap justify-content-center align-items-center mb-3">
             {% for book in books%}
             <div class="homebooks mx-3 mb-3">
-                <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Author: {{book.author}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
+                <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
                     {% cloudinary book.cover width=150 height=225 crop="fill" %}
                 </button>
                 <div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 m-0">
@@ -41,10 +41,10 @@
 <div class="container-fluid d-flex justify-content-center align-items-center p-2 pb-5" id="hp_assets_wrapper">
     <div class="container d-flex flex-column justify-content-center align-items-center" id="hp_assets">
         <h4 class="py-3 mb-4">TableTop Online Assets<span class="badge badge-danger ml-2">NEW!</span></h4>
-        <div class="d-flex flex-row flex-wrap mb-3">
+        <div class="container d-flex flex-row flex-wrap justify-content-center align-items-center mb-3">
             {% for book in books%}
             <div class="homebooks mx-3 mb-3">
-                <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Author: {{book.author}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
+                <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
                     {% cloudinary book.cover width=150 height=225 crop="fill" %}
                 </button>
                 <div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 m-0">
@@ -60,10 +60,10 @@
 <div class="container-fluid d-flex justify-content-center align-items-center p-2 pb-5" id="hp_miniatures_wrapper">
     <div class="container d-flex flex-column justify-content-center align-items-center" id="hp_minatures">
         <h4 class="py-3 mb-4">TableTop Miniatures<span class="badge badge-danger ml-2">NEW!</span></h4>
-        <div class="d-flex flex-row flex-wrap mb-3">
+        <div class="container d-flex flex-row flex-wrap justify-content-center align-items-center mb-3">
             {% for book in books%}
             <div class="homebooks mx-3 mb-3">
-                <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Author: {{book.author}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
+                <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
                     {% cloudinary book.cover width=150 height=225 crop="fill" %}
                 </button>
                 <div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 m-0">

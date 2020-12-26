@@ -3,30 +3,20 @@
 
 {% for book in data %}
     <div class="homebooks mx-3 mb-3">
-        <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Author: {{book.author}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
+        <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
             {% cloudinary book.cover width=150 height=225 crop="fill" %}
         </button>
-        <div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 m-0">
+        <div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 mb-3">
             <p class="m-0 pl-2">Price: ${{book.price|div:100}}</p>
             <a href="{% url 'book_info' book_id=book.id %}" class="btn btn-sm btn-info">Buy</a>
         </div>
     </div>
 {% endfor %}
 
-<script>
-// Bootstrap 4 Popover Script
-$(function () {
-  $('[data-toggle="popover"]').popover()
-})
-$('.popover-dismiss').popover({
-  trigger: 'focus'
-})
-</script>
-
 <style>
 .homebooks {
     width: 155px;
-    height: 225px;
+    height: auto;
 }
 
 .homebooks_text{
@@ -55,3 +45,13 @@ $('.popover-dismiss').popover({
     background:  rgba(178, 190, 181,1)
 }
 </style>
+
+<script>
+// Bootstrap 4 Popover Script
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+$('.popover-dismiss').popover({
+  trigger: 'focus'
+})
+</script>

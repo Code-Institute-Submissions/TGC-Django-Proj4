@@ -6,75 +6,71 @@
 {%block title%}RPG Books{%endblock%}
 
 {%block css%}<link rel="stylesheet" href="{% static '/css/index.css' %}">{%endblock%}
+
 {%block js%}
 <script>
-{% for gen in genre %}
-    $(document).ready(function(){
-        // Sidebar filter Animations
-        $('.nav-title-{{gen.title}}').click(function(){
-            $('.nav-content').slideUp().toggleClass('active', false);
-            if(!$('.nav-content').hasClass('active')){
-                $('.nav-title span').html('<i class="fa fa-plus" aria-hidden="true"></i>');
-                $('.nav-title').css({"background": "transparent"});
-            }
-            $('.nav-content-{{gen.title}}').slideToggle().toggleClass('active');
-            if( $('.nav-content-{{gen.title}}').hasClass('active')){
-                $('.nav-title-{{gen.title}} span').html('<i class="fa fa-minus" aria-hidden="true"></i>');
-                $('.nav-title-{{gen.title}}').css({"background": "rgba(150,150,150,1.0)"});
-            }else{
-                $('.nav-title-{{gen.title}} span').html('<i class="fa fa-minus" aria-hidden="true"></i>');
-                $('.nav-title-{{gen.title}}').css({"background": "transparent"});
-            }
+$(document).ready(function(){
+    {% for gen in genre %}
+    // Sidebar filter Animations
+    $('.nav-title-{{gen.title}}').click(function(){
+        $('.nav-content').slideUp().toggleClass('active', false);
+        if(!$('.nav-content').hasClass('active')){
+            $('.nav-title span').html('<i class="fa fa-plus" aria-hidden="true"></i>');
+            $('.nav-title').css({"background": "transparent"});
+        }
+        $('.nav-content-{{gen.title}}').slideToggle().toggleClass('active');
+        if( $('.nav-content-{{gen.title}}').hasClass('active')){
+            $('.nav-title-{{gen.title}} span').html('<i class="fa fa-minus" aria-hidden="true"></i>');
+            $('.nav-title-{{gen.title}}').css({"background": "rgba(150,150,150,1.0)"});
+        }else{
+            $('.nav-title-{{gen.title}} span').html('<i class="fa fa-minus" aria-hidden="true"></i>');
+            $('.nav-title-{{gen.title}}').css({"background": "transparent"});
+        }
+    })
+
+    // Bootstrap 4 Popover Script
+    $(function () {
+    $('[data-toggle="popover"]').popover()
+    })
+    $('.popover-dismiss').popover({
+    trigger: 'focus'
+    })
+
+    //Sidebar Filter AJAX call on click on Book Categories
+    $('.nav-title-{{gen.title}}').click(function(){
+        genre_type = $('.nav-title-{{gen.title}}').text()
+        $.ajax({
+            url: "{% url 'genre_filter' %}",
+            type: "GET",
+            data: {'text': genre_type},
+            success: function(data){
+                $('#books_display').html(data);
+            },
+
         })
+        
+    })
 
-        // Bootstrap 4 Popover Script
-        $(function () {
-        $('[data-toggle="popover"]').popover()
-        })
-        $('.popover-dismiss').popover({
-        trigger: 'focus'
-        })
+    $('#order-by').on('change', function(){
+        value = $("#order-by").val()
+        $.ajax({
+            url: "{% url 'tag_filter' %}",
+            type: "GET",
+            data: {'text': value},
+            success: function(data){
+                $('#books_display').html(data);
+            },
 
-        //Sidebar Filter AJAX call on click on Book Categories
-        $('.nav-title-{{gen.title}}').click(function(){
-            genre_type = $('.nav-title-{{gen.title}}').text()
-            $.ajax({
-                url: "{% url 'genre_filter' %}",
-                type: "GET",
-                data: {'text': genre_type},
-                success: function(data){
-                    $('#books_display').html(data);
-                },
-
-            })
-            
-        })
-
-        $('#order-by').on('change', function(){
-            value = $("#order-by").val()
-            $.ajax({
-                url: "{% url 'tag_filter' %}",
-                type: "GET",
-                data: {'text': value},
-                success: function(data){
-                    $('#books_display').html(data);
-                },
-
-            })
         })
     })
-{% endfor %}
+    {%endfor%}
+})
 </script>
 {%endblock%}
 
-<!-- <script src="{% static '/js/index.js' %}"></script> -->
+
 {%block content%}
-{% if request.user.is_authenticated  %}
-<p>Welcome {{request.user}}</p>
-{% else %}
-<p>Please <a href="/accounts/login">Login</a></p>
-{%endif%}
-<div class="container d-flex flex-row">
+<div class="container d-flex flex-row flex-wrap">
     <div id="nav-bar">
         <div class="input-group mb-3 px-4 mt-5" id="order-by-list">
             <div class="input-group-prepend">
@@ -103,13 +99,13 @@
         </nav>
     </div>
     <div id="books_catalogue" class="d-flex flex-row justify-content-center mt-5">
-        <div class="d-flex flex-row flex-shrink-1 flex-wrap mb-3" id="books_display">
+        <div class="d-flex flex-row justify-content-center align-items-center flex-shrink-1 flex-wrap mb-3" id="books_display">
             {% for book in books %}
             <div class="homebooks mx-3 mb-3">
-                <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Author: {{book.author}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
+                <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
                     {% cloudinary book.cover width=150 height=225 crop="fill" %}
                 </button>
-                <div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 m-0">
+                <div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 mb-3">
                     <p class="m-0 pl-2">Price: ${{book.price|div:100}}</p>
                     <a href="{% url 'book_info' book_id=book.id %}" class="btn btn-sm btn-info">Buy</a>
                 </div>

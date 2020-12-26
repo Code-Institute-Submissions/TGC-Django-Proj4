@@ -1,4 +1,9 @@
-from django.shortcuts import render, get_object_or_404, reverse, HttpResponse, redirect
+from django.shortcuts import (
+    render,
+    get_object_or_404,
+    reverse,
+    HttpResponse,
+    redirect)
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -63,10 +68,10 @@ def payment_compeleted(request):
         event = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
         )
-    except ValueError as e:
+    except ValueError:
         print("Invalid Payload")
         return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:
+    except stripe.error.SignatureVerificationError:
         print("Invalid Signature")
         return HttpResponse(status=400)
 
@@ -83,7 +88,8 @@ def checkout_success(request):
 
 
 def checkout_cancelled(request):
-    messages.error(request, "Payment Cannot be Completed !!! Kindly check card details !")
+    messages.error(request, "Payment Cannot be Completed !!!"
+                   " Kindly check card details !")
     return redirect(reverse("view_cart"))
 
 

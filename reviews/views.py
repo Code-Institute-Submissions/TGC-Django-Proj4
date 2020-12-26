@@ -1,6 +1,4 @@
 from django.shortcuts import (
-    render,
-    HttpResponse,
     redirect,
     get_object_or_404
 )
@@ -10,13 +8,6 @@ from .models import Review
 from books.models import Book
 
 # Create your views here.
-
-
-def index(request):
-    reviews = Review.objects.all()
-    return render(request, 'reviews/reviews_index.template.html', {
-        'reviews': reviews
-    })
 
 
 def remove_comment(request, username, book_id):

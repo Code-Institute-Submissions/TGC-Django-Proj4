@@ -30,14 +30,16 @@
   <!-- Navbar -->
     <nav class="navbar navbar-expand-lg d-flex flex-column align-items-center p-0 m-0">
         <div class="row container-fluid d-flex justify-content-center" id="nav_cart_wrapper">
-            <div class="container d-flex flex-row justify-content-between p-0 m-2" id="nav_cart">
+            <div class="container d-flex flex-row justify-content-between p-0 my-1" id="nav_cart">
                 <div>
                     {% if user.is_superuser %}
-                        <button class="btn btn-sm mr-2"><i class="fas fa-user"></i> Welcome {{ user.username }} !!!</button> 
-                        <a class="btn btn-sm mr-5" href="/accounts/logout"><i class="fas fa-user"></i> Logout</a>
-                        <a class="btn btn-sm ml-3" href="{% url 'create_book' %}"><i class="fas fa-journal-whills"></i> Create Book Product</a>
-                        <a class="btn btn-sm ml-1" href="#"><i class="fas fa-file-alt"></i> Create Assets Product</a>
-                        <a class="btn btn-sm ml-1" href="#"><i class="fas fa-dragon"></i> Create Miniature Product</a>
+                        <div class='container'>
+                            <button class="btn btn-sm mr-2"><i class="fas fa-user"></i> Welcome {{ user.username }} !!!</button> 
+                            <a class="btn btn-sm mr-5" href="/accounts/logout"><i class="fas fa-user"></i> Logout</a>
+                            <a class="btn btn-sm ml-2 my-1" href="{% url 'create_book' %}"><i class="fas fa-journal-whills"></i> Create Book Product</a>
+                            <a class="btn btn-sm ml-2 my-1" href="#"><i class="fas fa-file-alt"></i> Create Assets Product</a>
+                            <a class="btn btn-sm ml-2 my-1" href="#"><i class="fas fa-dragon"></i> Create Miniature Product</a>
+                        </div>
                     {% elif user.is_authenticated %}
                         <button class="btn btn-sm mr-2"><i class="fas fa-user"></i> Welcome {{ user.username }} !!!</button> 
                         <a class="btn btn-sm mr-5" href="/accounts/logout"><i class="fas fa-user"></i> Logout</a>
@@ -46,9 +48,9 @@
                         <a class="btn btn-sm" href="/accounts/signup"><i class="fas fa-clipboard-list"></i> Join Now</a>
                     {% endif %}
                 </div>
-                <div> 
-                    <a class="btn btn-sm" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> Cart <span class="badge badge-success">$ {{grand_total|div:100|floatformat:2}}</span></a>
-                </div>
+            </div>
+            <div id="cart"> 
+                <a class="btn btn-sm" href="{% url 'view_cart' %}"><i class="fas fa-shopping-cart"></i> Cart <span class="badge badge-success">$ {{grand_total|div:100|floatformat:2}}</span></a>
             </div>
         </div>
         <div class="row container-fluid d-flex justify-content-center d-lg-inline-block d-lg-flex d-none" id="main_logo"> 
@@ -77,15 +79,16 @@
                 </button>
                 <div class="collapse navbar-collapse justify-content-center" id="navbar">
                     <ul class="navbar-nav text-center">
-                       <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Books
+                        <li><a class="nav-link" href="{% url 'homepage' %}" id="nav_home"><i class="fas fa-home"></i> Home</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="{% url 'show_books' %}" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-journal-whills"></i> Books
                             </a>
-                            <div class="dropdown-menu menu" aria-labelledby="navbarDropdown1">
+                            <div class="dropdown-menu menu px-1" aria-labelledby="navbarDropdown1">
                                 <div class="d-flex flex-shrink-1">
                                     <div style="flex:1">
                                         <ul class="p-0 mr-2" style="list-style-type: none; border-right: 1px solid rgba(150,150,150,1.0);">
-                                            <li><a class="dropdown-item" href="{% url 'show_books' %}">What's NEW!</a></li>
+                                            <li><a class="dropdown-item dpd-item" href="{% url 'show_books' %}">What's NEW!</a></li>
                                         </ul>
                                     </div>
                                     <div class="d-flex flex-row" style="flex:3">
@@ -100,13 +103,13 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Assets
+                            <i class="fas fa-file-alt"></i> Assets
                             </a>
                             <div class="dropdown-menu menu" aria-labelledby="navbarDropdown2">
                                 <div class="d-flex flex-shrink-1">
                                     <div style="flex:1">
                                         <ul class="p-0 mr-2" style="list-style-type: none; border-right: 1px solid rgba(150,150,150,1.0);">
-                                            <li><a class="dropdown-item" href="#">What's NEW!</a></li>
+                                            <li><a class="dropdown-item dpd-item" href="#">What's NEW!</a></li>
                                         </ul>
                                     </div>
                                     <div class="d-flex flex-row" style="flex:3">
@@ -121,13 +124,13 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Miniatures
+                            <i class="fas fa-dragon"></i> Miniatures
                             </a>
                             <div class="dropdown-menu menu" aria-labelledby="navbarDropdown3">
                                 <div class="d-flex flex-shrink-1">
                                     <div style="flex:1">
                                         <ul class="p-0 mr-2" style="list-style-type: none; border-right: 1px solid rgba(150,150,150,1.0);">
-                                            <li><a class="dropdown-item" href="#">What's NEW!</a></li>
+                                            <li><a class="dropdown-item dpd-item" href="#">What's NEW!</a></li>
                                         </ul>
                                     </div>
                                     <div class="d-flex flex-row" style="flex:3">

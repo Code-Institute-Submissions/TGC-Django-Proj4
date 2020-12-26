@@ -29,7 +29,7 @@
 
 .homebooks {
     width: 155px;
-    height: 225px;
+    height: auto;
 }
 
 .homebooks_text{

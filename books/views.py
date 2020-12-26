@@ -1,16 +1,18 @@
-from django.shortcuts import render, HttpResponse, redirect, get_object_or_404, reverse
+from django.shortcuts import (
+    render,
+    HttpResponse,
+    redirect,
+    get_object_or_404,
+    reverse)
 from django.template.loader import render_to_string
 from .models import Book, Category, Genre, Tag
 from reviews.models import Review
-from .forms import BookForm, SearchForm
+from .forms import BookForm
 from reviews.forms import ReviewForm
 from django.db.models import Q
 from django.http import JsonResponse
-import json
-from django.core import serializers
 from django.contrib import messages
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -22,7 +24,7 @@ def redirect_view(request):
 
 def homepage(request):
     books = Book.objects.all()
-    books_nav = books.order_by('-release_date')[:3]
+    books_nav = books.order_by('-release_date')[:2]
     cart = request.session.get('shopping_cart', {})
     grand_total = 0
     for item in cart:
@@ -37,7 +39,7 @@ def homepage(request):
 def index(request):
     genre = Genre.objects.all()
     tags = Tag.objects.all()
-    books_nav = Book.objects.order_by('-release_date')[:3]
+    books_nav = Book.objects.order_by('-release_date')[:2]
     cart = request.session.get('shopping_cart', {})
     grand_total = 0
     for item in cart:
@@ -64,22 +66,84 @@ def index(request):
 
 @login_required
 def create_book(request):
-    if request.method == "POST":
-        create_form = BookForm(request.POST, request.FILES)
-        if create_form.is_valid():
-            create_form.save()
-            messages.success(
-                request, f"New book {create_form.cleaned_data['title']} has been created!")
-            return redirect(reverse("Homepage"))
+    books_nav = Book.objects.order_by('-release_date')[:2]
+    cart = request.session.get('shopping_cart', {})
+    grand_total = 0
+    for item in cart:
+        grand_total += cart[item]['subtotal']
+    if request.user.is_superuser:
+        if request.method == "POST":
+            create_form = BookForm(request.POST, request.FILES)
+            if create_form.is_valid():
+                create_form.save()
+                messages.success(
+                    request, f"New book {create_form.cleaned_data['title']}"
+                    " has been created!")
+                return redirect(reverse("homepage"))
+            else:
+                return render(request, 'books/create_book.template.html', {
+                    'form': create_form,
+                    'books_nav': books_nav,
+                    'grand_total': grand_total,
+                })
         else:
+            create_form = BookForm
             return render(request, 'books/create_book.template.html', {
-                'form': create_form
+                'form': create_form,
+                'books_nav': books_nav,
+                'grand_total': grand_total,
             })
     else:
-        create_form = BookForm
-        return render(request, 'books/create_book.template.html', {
-            'form': create_form,
-        })
+        messages.warning(
+            request, "You are not administator !"
+            " Contact admin to post new products !")
+        return redirect(reverse('homepage'))
+
+
+def edit_book(request, book_id):
+    books_nav = Book.objects.order_by('-release_date')[:2]
+    cart = request.session.get('shopping_cart', {})
+    grand_total = 0
+    for item in cart:
+        grand_total += cart[item]['subtotal']
+    book_to_edit = get_object_or_404(Book, pk=book_id)
+    if request.user.is_superuser:
+        if request.method == "POST":
+            edit_form = BookForm(request.POST, instance=book_to_edit)
+            if edit_form.is_valid():
+                edit_form.save()
+                messages.success(
+                    request, f"Book {edit_form.cleaned_data['title']}"
+                    f" has been updated!")
+                return redirect("book_info", book_id=book_to_edit.id)
+            else:
+                messages.warning(request, "Invalid update, check form!")
+                return render(request, 'books/edit_book.template.html', {
+                    'form': edit_form,
+                    'books_nav': books_nav,
+                    'grand_total': grand_total,
+                })
+        else:
+            edit_form = BookForm(instance=book_to_edit)
+            return render(request, 'books/edit_book.template.html', {
+                'book': book_to_edit,
+                'form': edit_form,
+                'books_nav': books_nav,
+                'grand_total': grand_total,
+            })
+    else:
+        messages.warning(
+            request, "You are not administator !"
+            " Contact admin to edit products !")
+        return redirect(reverse('homepage'))
+
+
+def delete_book(request, book_id):
+    book_to_delete = get_object_or_404(Book, pk=book_id)
+    book_to_delete.delete()
+    messages.warning(
+        request, f"Book product {book_to_delete.title} has been Deleted !")
+    return redirect('show_books')
 
 
 def get_category(request):
@@ -118,7 +182,7 @@ def tag_filter(request):
 
 def book_info(request, book_id):
     books = Book.objects.all()
-    books_nav = books.order_by('-release_date')[:3]
+    books_nav = books.order_by('-release_date')[:2]
     cart = request.session.get('shopping_cart', {})
     grand_total = 0
     for item in cart:
@@ -137,9 +201,11 @@ def book_info(request, book_id):
                 review.book = book_selected
                 review.save()
                 messages.success(
-                    request, f"Review has been posted on {book_selected.title}")
+                    request,
+                    f"Review has been posted on {book_selected.title}")
                 return redirect('book_info', book_id=book_id)
         else:
+            messages.warning(request, "Kindly log in to post reviews !")
             return redirect('account_login')
 
     return render(request, 'books/book_info.template.html', {
