@@ -22,7 +22,7 @@ def redirect_view(request):
 
 def homepage(request):
     books = Book.objects.all()
-    books_nav = books.order_by('-release_date')[:2]
+    books_nav = books.order_by('-release_date')[:3]
     cart = request.session.get('shopping_cart', {})
     grand_total = 0
     for item in cart:
@@ -37,7 +37,7 @@ def homepage(request):
 def index(request):
     genre = Genre.objects.all()
     tags = Tag.objects.all()
-    books_nav = Book.objects.order_by('-release_date')[:2]
+    books_nav = Book.objects.order_by('-release_date')[:3]
     cart = request.session.get('shopping_cart', {})
     grand_total = 0
     for item in cart:
@@ -46,7 +46,10 @@ def index(request):
     search_query = request.GET.get('search', '')
 
     if search_query:
-        books = Book.objects.filter(Q(title__icontains=search_query)|Q(category__title__icontains=search_query)|Q(genre__title__icontains=search_query))
+        books = Book.objects.filter(
+            Q(title__icontains=search_query) |
+            Q(category__title__icontains=search_query) |
+            Q(genre__title__icontains=search_query))
     else:
         books = Book.objects.all()
 
@@ -95,8 +98,18 @@ def genre_filter(request):
         genre_filter = Genre.objects.values_list(
             'id', flat=True).get(title=genre)
         data = Book.objects.filter(genre=genre_filter)
-        print(genre_filter)
-        print(data)
+        html = render_to_string('books/filtered_data.template.html', {
+            "data": data
+        })
+        return HttpResponse(html)
+
+
+def tag_filter(request):
+    if request.method == 'GET':
+        tag = request.GET.get('text', None)
+        tag_filter = Tag.objects.values_list(
+            'id', flat=True).get(title=tag)
+        data = Book.objects.filter(tags=tag_filter)
         html = render_to_string('books/filtered_data.template.html', {
             "data": data
         })
@@ -105,7 +118,7 @@ def genre_filter(request):
 
 def book_info(request, book_id):
     books = Book.objects.all()
-    books_nav = books.order_by('-release_date')[:2]
+    books_nav = books.order_by('-release_date')[:3]
     cart = request.session.get('shopping_cart', {})
     grand_total = 0
     for item in cart:

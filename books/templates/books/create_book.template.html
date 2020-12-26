@@ -49,8 +49,6 @@
 $(document).ready(function(){
     $('#id_category').on('change', function(e){
         let bookCategory = $('#id_category').val();
-        console.log(bookCategory)
-
         $.ajax({
             url: "{% url 'cat_search' %}",
             dataType: "json",
@@ -64,7 +62,6 @@ $(document).ready(function(){
 
             }
         })
-        
     });
 
     function prettydump(obj) {

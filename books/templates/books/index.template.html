@@ -38,19 +38,29 @@
         //Sidebar Filter AJAX call on click on Book Categories
         $('.nav-title-{{gen.title}}').click(function(){
             genre_type = $('.nav-title-{{gen.title}}').text()
-            console.log(genre_type)
-
             $.ajax({
                 url: "{% url 'genre_filter' %}",
                 type: "GET",
                 data: {'text': genre_type},
                 success: function(data){
-                    console.log(data);
                     $('#books_display').html(data);
                 },
 
             })
             
+        })
+
+        $('#order-by').on('change', function(){
+            value = $("#order-by").val()
+            $.ajax({
+                url: "{% url 'tag_filter' %}",
+                type: "GET",
+                data: {'text': value},
+                success: function(data){
+                    $('#books_display').html(data);
+                },
+
+            })
         })
     })
 {% endfor %}

@@ -86,13 +86,11 @@
                                     <div style="flex:1">
                                         <ul class="p-0 mr-2" style="list-style-type: none; border-right: 1px solid rgba(150,150,150,1.0);">
                                             <li><a class="dropdown-item" href="{% url 'show_books' %}">What's NEW!</a></li>
-                                            <li><a class="dropdown-item" href="#">Best Seller</a></li>
-                                            <li><a class="dropdown-item" href="#">On Sale</a></li>
                                         </ul>
                                     </div>
                                     <div class="d-flex flex-row" style="flex:3">
                                         {% for book in books_nav%}
-                                        <a class="dropdown-item p-0 mx-2" href="{% url 'book_info' book_id=book.id %}" style="height:90px; width:80px;">
+                                        <a class="dropdown-item p-0 mx-2 mb-3" href="{% url 'book_info' book_id=book.id %}" style="height:90px; width:80px;">
                                             {% cloudinary book.cover width=90 height=100 crop="fit" %}
                                         </a>
                                         {% endfor %}
@@ -109,13 +107,11 @@
                                     <div style="flex:1">
                                         <ul class="p-0 mr-2" style="list-style-type: none; border-right: 1px solid rgba(150,150,150,1.0);">
                                             <li><a class="dropdown-item" href="#">What's NEW!</a></li>
-                                            <li><a class="dropdown-item" href="#">Best Seller</a></li>
-                                            <li><a class="dropdown-item" href="#">On Sale</a></li>
                                         </ul>
                                     </div>
                                     <div class="d-flex flex-row" style="flex:3">
                                         {% for book in books_nav%}
-                                        <a class="dropdown-item p-0 mx-2" href="#" style="height:90px; width:80px;">
+                                        <a class="dropdown-item p-0 mx-2 mb-3" href="#" style="height:90px; width:80px;">
                                             {% cloudinary book.cover width=90 height=100 crop="fit" %}
                                         </a>
                                         {% endfor %}
@@ -132,13 +128,11 @@
                                     <div style="flex:1">
                                         <ul class="p-0 mr-2" style="list-style-type: none; border-right: 1px solid rgba(150,150,150,1.0);">
                                             <li><a class="dropdown-item" href="#">What's NEW!</a></li>
-                                            <li><a class="dropdown-item" href="#">Best Seller</a></li>
-                                            <li><a class="dropdown-item" href="#">On Sale</a></li>
                                         </ul>
                                     </div>
                                     <div class="d-flex flex-row" style="flex:3">
                                         {% for book in books_nav%}
-                                        <a class="dropdown-item p-0 mx-2" href="#" style="height:90px; width:80px;">
+                                        <a class="dropdown-item p-0 mx-2 mb-3" href="#" style="height:90px; width:80px;">
                                             {% cloudinary book.cover width=90 height=100 crop="fit" %}
                                         </a>
                                         {% endfor %}
