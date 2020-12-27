@@ -97,12 +97,15 @@ WSGI_APPLICATION = 'TabletopSixEcom.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# SQLite Database Incase
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+# Heroku database
 DATABASES = {'default': dj_database_url.parse(os.environ["DATABASE_URL"])}
 
 # Password validation
