@@ -153,8 +153,9 @@
                             <a href="{% url 'remove_comment' username=review.user book_id=book.id %}" class="text-danger"><i class="fas fa-trash-alt"></i></a>
                         </div>
                     </div>
-                    <div class="review_content d-flex justify-content-center align-items-center"> 
-                        <p class="px-2 pt-1">{{review.content}} --- {{review.rating}} out of 5<p>
+                    <div class="review_content d-flex flex-column justify-content-center align-items-center">
+                        <p class="pt-1 mb-1">{{review.title}} --- <i class="fas fa-star"></i> {{review.rating}} out of 5</p>
+                        <p class="px-2">{{review.content}} <p>
                     </div>
                 </div>
                 {%endfor%}

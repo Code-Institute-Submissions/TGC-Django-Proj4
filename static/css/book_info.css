@@ -105,3 +105,11 @@
     letter-spacing: 0.2rem;
     font-size: 0.6rem;
 }
+
+#div_id_rating div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+}

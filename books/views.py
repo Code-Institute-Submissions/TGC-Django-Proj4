@@ -25,12 +25,13 @@ def redirect_view(request):
 def homepage(request):
     books = Book.objects.all()
     books_nav = books.order_by('-release_date')[:2]
+    books_cut = books.order_by('-release_date')[:10]
     cart = request.session.get('shopping_cart', {})
     grand_total = 0
     for item in cart:
         grand_total += cart[item]['subtotal']
     return render(request, 'books/homepage.template.html', {
-        'books': books,
+        'books': books_cut,
         'books_nav': books_nav,
         'grand_total': grand_total,
     })
@@ -53,7 +54,8 @@ def index(request):
             Q(category__title__icontains=search_query) |
             Q(genre__title__icontains=search_query))
     else:
-        books = Book.objects.all()
+        books_all = Book.objects.all()
+        books = books_all.order_by('-release_date')
 
     return render(request, 'books/index.template.html', {
         'genre': genre,
