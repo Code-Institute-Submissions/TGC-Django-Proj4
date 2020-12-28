@@ -26,7 +26,7 @@
             {% for book in books%}
             <div class="homebooks mx-3 mb-3">
                 <button class="p-0" data-html="true" data-toggle="popover" data-trigger="focus" title="{{book.category}}<hr>{{book.title}}" data-content="ISBN: {{book.ISBN}}<br/>Release: {{book.release_date}}<br/>Ratings: {{book.reviews}} / 5">
-                    {% cloudinary book.cover width=150 height=225 crop="fill" %}
+                    {% cloudinary book.cover width=150 height=225 crop="fill" alt="book cover image"%}
                 </button>
                 <div class="homebooks_text d-flex flex-row justify-content-between align-items-center p-0 m-0">
                     <p class="m-0 pl-2">Price: ${{book.price|div:100}}</p>
