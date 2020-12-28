@@ -1,177 +1,143 @@
-# TableTop Six - Communal tabletop rpg book review site #
+# TableTopSix MarketPlace - All your tabletop RPG needs #
 
-### TGC - Data Centric Development Milestone Project 3 ###
+### TGC - Fullstack Framework Milestone Project 4 ###
 By: **Collin Wu Yuewei** -- *Code Institute Batch 8* -- 
-##### Made with Python/Flask and MongoDB ######
-<br> 
+##### Made with Python/Django ######
+<br>
 
 ## SUMMARY ##
-The intent of this webpage is to be a communal forum for enthusiast to share they review on books from their favourite tabletop rpg series. Giving basic information about he books, the cost, where to get them and what to expect.
+The intent of this webpage is to be the market place for the communal forum for enthusiast to share they review on books from their favourite tabletop rpg series. The site aims to be the market place e-commerce webpage to find all your tabletop rpg needs.
 <br>
 
 ##### Home Page Preview ####
-![Website Preview Image](/static/images/proj3Home.png "Where to Park Website Homepage")
-##### Book Review Info Preview ####
-![Website Preview Image](/static/images/proj3Book.png "Where to Park Website Search Page")
-##### Footer of Page Preview ####
-![Website Preview Image](/static/images/proj3Footer.png "Where to Park Website Search Page")<br>
-<br>
+![Website Preview Image](/static/images/Homepage.png "TableTop Six MarketPlace Website Homepage")
+##### Book Product Info Preview ####
+![Website Preview Image](/static/images/Book_info.png "TableTop Six MarketPlace Book Info Page")
 
 
 ## PROJECT AIM/INTENT ##
-The goal of the project is to build an data centric site with Python language with Flask framework and MongoDB to present useful information drawn from different user input via CRUD, using techonology and languages taught in the Code Institute Fullstack Web Developer Program; at Project 3, namely HTML, CSS, JS, Python, Flask, MongoDB.
+The goal of the project is to build an e-commerce website using Python language with Django framework and Sqlite to present useful products information to be sold to users and allow other users to comment/review on the product. Products can be added to the catalogue via CRUD with permission only from a Adminstrative Account (superuser), using techonology and languages taught in the Code Institute Fullstack Web Developer Program; at Project 4, namely HTML, CSS, JS, Python, Django, Sqlite, Heroku.
 
-__The concept chosen for this project is to create a communal book review website for enthusiast to share they review on books from their favourite tabletop rpg series. To become a resource or reference for others who might want to jump into the hobby, or looking for information__ 
+__The concept chosen for this project is to create a marketplace for the communal book review website Tabletop Six for enthusiast. To become a resource or reference for others who might want to jump into the hobby, or looking for information and different products in one place__ 
 
-The problem is that there are too many series of such tabletop rpgs, books are typically found at the main publisher's webpage at a mint condition price. While at amazon, you are able to obtain used copies for cheaper and a consolidated area for finding different books from different genres/series.<br>
+The problem is that there are too many series of such tabletop rpgs, books are typically found at the main publisher's webpage that only sold their series. While at TableTopSix Marketplace, you are able to obtain used reviews and products of different genre, category, series all in a single location.
 <br>
-
+<br>
 
 ## FULL DEMO ##
 
-The full website demo can be previewed here: [Tabletop Six Webpage](https://cwy-tgc8-project-3.herokuapp.com/)
+The full website demo can be previewed here: [Tabletop Six MarketPlace Webpage](https://cwy-tgc8-project4.herokuapp.com/)
 
-Responsive is tested using [Am I Responsive?](http://ami.responsivedesign.is/?url=https://cwy-tgc8-project-3.herokuapp.com/): <br>
-
-![Responsive Demo on Various Devices](/static/images/amiresponsive.png "Website Responsiveness Preview")<br>
 <br>
+
+| Permission | User Login | Password |
+| ---------- | ---------- | -------- |
+| superuser  | admin      | admin123 |
+| normal     | test@email.com | tester123 |
+
+Or create your own account with a valid email as there will be a verification email sent to you to verify the account.
+
+<br>
+
+
+## User Stories ##
+
+| Permission Level | Event/Usage of Site | Navigation | Outcome |
+| ---------------- | ------------------- | ---------- | ------- |
+| Non-sign-up | Looking for information | Can view site, books, information and revies on them | Gets more informed and may sign up to purchase |
+| Exisiting user | Want to buy the latest book | Search for book via search bar with the category | Get books related to category and finds book with filter, purchases product |
+| Non-sign-up | New to hobby, looking for horror genre type rpgs | Search for books use "Horror" tag | Get display of books with Horror genre and chooses the series with information and reviews |
+| Adminstator | Adding new book | Uses the quick access button on the top to create book | Fills in the create book form and uploads all images, submits to back end | New product is immediately displayed |
+| Existing user | Leaving reviews and get offended by other reviews | Cannot delete reviews not owner of, have to contact adminstator via email | Review in view is investigated and removed if necessary |
+
 
 ## WireFrames ##
-The main wireframes made with [Wireframe CC](https://wireframe.cc/) are planned originally for the most crucial parts of the webpage, mainly the landing page and book review, as development goes, more features are added:<br>
+The main wireframes made with [Wireframe CC](https://wireframe.cc/) are planned originally for the most crucial parts of the webpage, mainly the home page and book info, as development goes, more features are added/modified:<br>
 <br>
 
-Wireframe planning for Landing Page:
-![Wireframe Landing Page](/static/images/wireframeMain.png "Wireframe planning for Landing Page")<br>
+Wireframe planning for Homepage:
+![Wireframe Home Page](/static/images/Wireframe_Homepage.png "Wireframe planning for HomePage")<br>
 <br>
 
-Wireframe planning for Book Review Page:
-![Wireframe Book Page](/static/images/wireframeBook.png "Wireframe planning for Book Review Page")<br>
+Wireframe planning for Show All Books:
+![Wireframe Show All Books Page](/static/images/Wireframe_Show_Catalogue.png "Wireframe planning for Show All Books Page")<br>
+<br>
+
+Wireframe planning for Book Info Page:
+![Wireframe Book Info Page](/static/images/Wireframe_Object_details.png "Wireframe planning for Book Info Page")<br>
+<br>
+
+__MOBILE__
+
+Wireframe planning for Homepage (Mobile):
+![Wireframe Home Page Mobile](/static/images/Wireframe_Homepage_mobile.png "Wireframe planning for HomePage on mobile devices")
+
+Wireframe planning for Book Info Page (Mobile):
+![Wireframe Book Info Page Mobile](/static/images/Wireframe_Book_info_mobile.png "Wireframe planning for Book info page on mobile devices")<br>
 <br>
 
 ## Database Planning ##
 
-As the database used for the project is MongoDB, database relationships are unnecessary as compared to SQL.
+As the database used for the project is Sqlite, database relationships are necessary as compared to MongoDB.
+
+Database Planning Diagram:
+![Database Planning Diagrma](/static/images/DatabasePlanning.png "Database models relationship planning")
 
 Things to Consider:<br>
+- Session Id is taken care by Allauth package, giving session id, user id and authentication
+- Cart app functions on a session by session basis, and the payment is outsourced directly to Stripe with specific variables
 
-Tabletop books review site community
-- Public can see all records
-- Public can send in new records
-- Only OP can edit past records
-- Only Users can leave ratings
-- Only Users can leave comments
-
-Records Management (database)
-- Records to be browsed by categories
-- Records have Image
-- Records have Name
-- Records have Author
-- Records have Year of Publish
-- Records have Price (Amazon, etc...)
-- Records have Reviews ( 5Stars)
-- Records have Comments
-- Original Poster record
-
-```
-category
-{
-    "name":
-    "publisher":
-    "review_average": (Future Implement)
-    "comments":
-    "books": [], ## Using $lookup from Books, common field name -- category
-}
-```
-```
-books
-{
-    "category": 
-    "name":
-    "author":
-    "release_date":
-    "price":
-    "reviews":
-    "comments":
-    "image":
-    "created_by":
-}
-```
-```
-users
-{
-    "name":
-    "email":
-    "password":
-    "terms_condition":
-    "recieve_email":
-}
-```
-```
-mailing_list
-{
-    "name":
-    "email":
-}
-```
 <br>
 
 ## UX DESIGN ##
 
-- Firstly the design is fully mobile responsive, navbar to collapsed hamburgers and book cards wrap to make 3 -> 2 -> 1 card per screen depending on size.<br>
+- Firstly the design is fully mobile responsive, navbar to collpased logo icon that has the navbar and book cards wrap to make 3 -> 2 -> 1 card per screen depending on size.<br>
 
-- The layout is mainly designed for desktop users or large tablet users. There is a persistent sticky nav bar at the top as well as a persistent search banner thorughout each page for easy access.
+- The layout is mainly designed for desktop users or large tablet users. There is a persistent sticky cart button with total value in cart(quick access and jumps to cart page) updates the user on the amount that is currently being purchased.
     <br>
-- The navbar has hover over indicators as well as a dropdown list for the categories available. It also changes the "Log In" to the user's name when logged in. 
+- The navbar has dropdown list for the most current release books as well as the link to show all books. 
     <br>
-- The search bar have preset categories that are clickable (with hover color change effects) which redirects the user to the category page which shows all book reviews within it. The search bar itself when search takes the first keyword and finds the books relating to the search. You can try this by searching "Star" then completing it to "Starfinder".
+- The search bar allows search of partial information on book titles, categories and genre for both on the navbar and the main page.
     <br>
-- All book review cards are linked to their own book review information page and can be clicked for quick information access
+- Quick access buttons at the top of the page become available if the account is superuser permission level, which show buttons to create new book products and admin page for backend. 
     <br>
-- Buttons of Submit/Edit/Delete/Go to Category are all color coded and large for easy clicking
+- All book cards have a pop-up to give general information on the book, a "more info" button that redirects the user to the book info page.
     <br>
-- The footer is also persistent for a more holistic view as well as a call-to-action for users to donate to the site owners
+- A large call to action button to add item to cart (requires login), with the cart nav button on the top right of the page showing the total cost currently in cart.
     <br>
-- User log in system is used to monitor new post, edits and deletes. This is to prevent other people removing valuable reviews. With that being said, there is a Adminstrative account that can access any review, edit or delete. In an event an user wants to edit a review that was not posted by them, they are redirected to the log in page. IF they want to edit the review, they would need to approach the adminstrator. 
-- ##### Adminstrative Account <br>User Email:   __Admin__ <br> Password: __Admin__ <br> ######
-- All users have the option to add their email to the monthly update email during creation
+- The book info page has buttons to edit/delete book buttons only available to adminstrator superuser level.
     <br>
-- All user action to interact with the server, have color coded flash messages on success or errors
+- Reviews on each book can only be posted if user is logged in, and the comments can only be deleted by the original poster or adminstator.
     <br>
-- Forms are all validated and would not allow blank entries, if left empty will present a red outline and a small text suggesting the input. There are also quick look up for categories/series to post new reviews in.<br>
+- Signing up a new account is available both at the quick access button above "Join Now" as well as "sign up" link in the login page, which will sent an email to the registered email for verification.
+    <br>
+- Password resets are also available at the login page
+    <br>
+- The cart page shows a breakdown of all items in the cart, as well as "add" and "minus" buttons to increase the quantity quickly. There is also a trash can button to quickly remove the item from the cart.
+    <br>
+- All actions, from adding items to carts, add/subtracting quantity, book product creation and removal, reviews creations and removal, login/logout, warnings and prompts have a Toastr message pop-up to inform the user that the action is completed.
+    <br>
+- All payment is outsourced directly to Stripe, therefore no private information is maintained by this webpage
     <br>
 
 ## Features ##
-- MongoDB Supported Webpage with Databases Collection Interactions
-    - Card Display of Book Reviews (Governed by User Login Unique ID)
-    - Communal - Free Forum (Anyone can make an Account)
-    - Email mailing list database, for communications to the audience (Opted by User)
-    - User login system and Admistrative Account for webpage moderation<br>
-
-- Quick category access buttons in the search bar to see book reviews while having a Quick access Search Function with keyword search, replacing the category layout with searched book title results<br>
-    - Sorted Reviews to their respective Series
-    
-- Beautiful quick access book review cards, that show a brief information or full book information on click<br>
-    
-- Quick Access Call-to-Action button that use GPS/Geolocation to determine location<br>
-    
-- Color-coded buttons and flashed messages for better UX<br>
-  
-- Monetization for both user and adminstrator of the webpage
-    - Each review has to come with a link to Amazon or a Location where the book can be purchased
-    - Encourages Affiliate Links that lead to used copies or cheaper pricing
-    - Social Media contacts are constantly in the footer on all pages
-    - Patreon Donation are encouraged with large banner at the bottom<br>
+- Robust backend database, only accessible by adminstator superuser permissions.
+- Full User system that governs, sign up, login, logout, reset password, sending validation emails, which can be further modified at backend admin page with adminstator superuser permission.
+- Allow any user to browse the webpage, but only customers with accounts to purchase product and leave comments.
+- Quick fast keyword search functions for titles/genres/categories
+- Filtering system to filter books on the show all books catalogue page based on series or tags
+- Persistant cart nav icon for quick access to checkout and showing their current total at all times
+- Quick access buttons are only available to users logged in with the correct permission level.
+- Online payment via Stripe for quick online checkout
 <br>
 
 ### Features Left to Implement ###
 
-- Ability to consolidate each duplicate review into a master review copy to display at landing page
-- Handling of duplicates to prevent spam or DDOS
-- Consolidate all comments in a single review book info area, for better UX
-- Mailing List DB to have system to write and send email to users easily for the adminstrator
-- For log in users to have a profile and history of past reviews/comments
-- Monetization modes to enable dropshipping or selling of items on the site itself instead of redirects
-- Filtered Search option with Side Bar for better Searching<br>
+- WIP: Categories such as Assets and Minatures to be added to the product line to encompass more holistic one stop market place
+- User history and profile page for reference adn data tracking
+- Product purchase value, to track what is trending and is not selling
+- Product recommendation when a user buy a certain production as well as bundles
+- Ability to allow PAID users to post their own products
 <br>
 
 
@@ -202,17 +168,22 @@ __Back-End__
 * [Python](https://www.python.org/ "Python Homepage")
     - Primary Coding Lanuage for logic handling and interaction with MongoDB database
     - An interpreted, object-oriented, high-level programming language with dynamic semantics
-* [Flask Framework](https://palletsprojects.com/p/flask/ "Flask Homepage")
+* [Django Framework](https://www.djangoproject.com/ "Django Homepage")
     - Framework in conjunction with Jinja2 templating language for Python
+    - Free and Open Source
     - Lightweight WSGI web application framework capable of scaling up
+    - Able to have template inheritence
 * [Jinja 2](https://jinja.palletsprojects.com/en/2.11.x/ "Jinja2 Homepage")
     - Jinja is a modern and designer-friendly templating language for Python
     - Modelled after Django’s templates
     - Fast, widely used and secure with the optional sandboxed template execution environment
-* [MongoDB](https://www.mongodb.com/ "MongoDB Homepage")
-    - Cross-platform document-oriented database program
-    - Classified as a NoSQL database program
-    - Uses JSON-like documents with optional schemas
+* [Sqlite](https://www.sqlite.org/index.html "Sqlite Homepage")
+    - Lightweight relationship based Database
+    - Integrated with Django for quick use, no install required
+* [Stripe](https://stripe.com/en-sg "Stripe Homepage")
+    - Quick fast online payment API
+    - Handles all purchase orders and deals directly with the user for private information
+    - Incorporates various payment methods such as amazon pay, grab pay, google pay
 * [Git](https://git-scm.com/ "Installation for Git Support")/[Github](https://github.com/ "Github Homepage")
     - For version control and commits to Github
 * [Gitpod IDE](https://www.gitpod.io/ "Gitpod IDE Homepage")
@@ -234,19 +205,17 @@ __Deployment__
 #### Responsiveness ####
 The webpage was manual tested for responsiveness on physical iPhone 6S, Samsung S8+, Xiaomi Mi Max2, 1920 x 1080 laptop screen.
 
-[Responsiveness Tool](http://responsivetesttool.com/ "Responsiveness Tool Homepage")  and  [Mobile-Friendly Test](https://search.google.com/test/mobile-friendly?id=07L3WeU_nndVYwaUTleP7w "Mobile Friendly Test Homepage")  or [Am I Responsive Design](http://ami.responsivedesign.is/ "Am I Responsive Design Homepage"), was used to test different screen sizes and devices for responsiveness
+As Django has a strong security feature such as FrameX, online display tools such as [Responsiveness Tool](http://responsivetesttool.com/ "Responsiveness Tool Homepage")  and  [Mobile-Friendly Test](https://search.google.com/test/mobile-friendly?id=07L3WeU_nndVYwaUTleP7w "Mobile Friendly Test Homepage")  or [Am I Responsive Design](http://ami.responsivedesign.is/ "Am I Responsive Design Homepage"), cannot be used to show such repsonsiveness. Instead Google inspector with various screen width is used instead.
 
-![Responsive Demo with Responsiveness Tool](/static/images/responsivetool.png "Responsive Demo with Responsiveness Tool")<br>
-
-![Responsive Demo with Mobile-Friendly](/static/images/mobilefriendly.png "Responsive Demo with Mobile-Friendly")<br>
+Responsive is tested using Google Inspector ![Google Inspector](/static/images/responsiveness.png "Mobile Responsiveness") <br>
 
 All platforms had to have correct CSS design, working animation, buttons, pop-up and elements placed in the correct position.
 
 #### Page Load Time ####
 
-The page load time is tested using [Pingdom Tool](https://tools.pingdom.com/ "Pingdom Homepage") while being hosted on Heroku Platform. This is vital and important as the goal was to have a responsive, non-laggy webpage with no link-loading from page to page, achieving an __C__ rating of __77/100__ points also on Asia, America and European Servers. The major slow down is due to the off-site queries to the images hosting webpage Cloudinary for each review book. With more code optimization and a image database, I believe better page load time can be achieved.
+The page load time is tested using [Pingdom Tool](https://tools.pingdom.com/ "Pingdom Homepage") while being hosted on Heroku Platform. This is vital and important as the goal was to have a responsive, non-laggy webpage with no link-loading from page to page, achieving an __C__ rating of __76/100__ points also on Asia, America and European Servers. The major slow down is due to the off-site queries to the images hosting webpage Cloudinary for each review book. With more code optimization and an image database, I believe better page load time can be achieved.
 
-![Page Load Time](/static/images/PingdomResults.png "Page Load Times by Pingdom")
+![Page Load Time](/static/images/pingdom_project4.png "Page Load Times by Pingdom")
 
 #### Code Validation ####
 
