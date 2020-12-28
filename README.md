@@ -147,6 +147,7 @@ Things to Consider:<br>
 - Product purchase value, to track what is trending and is not selling
 - Product recommendation when a user buy a certain production as well as bundles
 - Ability to allow PAID users to post their own products
+- Allow futher filtering on categories to New/Rating/Price
 <br>
 
 
@@ -266,7 +267,7 @@ The site while being hosted by Heroku Cloud Application Platform is tested on a 
 
 ## Deployment ##
 
-This project uses Git for version control and hosts the repository for all commits. The depolyed site is hosted by [Heroku -Deployed Site](https://cwy-tgc8-project-3.herokuapp.com/ "Deployed Site")  where it can automatically updated on new commits directly to Heroku Master instead of GitHub.
+This project uses Git for version control and hosts the repository for all commits. The depolyed site is hosted by [Heroku -Deployed Site](https://cwy-tgc8-project4.herokuapp.com/ "Deployed Site")  where it can automatically updated on new commits directly to Heroku Master instead of GitHub.
 
 This project can be accessed via [CollinWuY's Github](https://github.com/CollinWuY/TGC-Django-Proj4 "Project's Repository") where you can clone/download to your computer directly, or immedaitely view the code via Gitpod. 
 
@@ -318,7 +319,7 @@ All files can be easily download on the Github site:
 1.  At the top right, click on green button under __CODE__
 2.  Select last option: Download .zip
 
-![Github Download ZIP](static/images/githubsitedl.png "Download from Github")
+![Github Download ZIP](/static/images/githubsitedl.png "Download from Github")
 
 3.  Download the .zip file that can be opened with a ZIP unpacker or RAR unpacker 
 4.  Unzip the package
@@ -332,7 +333,7 @@ Cloning this repository can be achieve by using the link provided at the Github 
 1. At the top right, click on green button under __CODE__
 2. Copy the link provided: `https://github.com/CollinWuY/TGC-Django-Proj4`
 
-![Github Clone URL](static/images/githubsiteclone.png "Clone URL from Github")
+![Github Clone URL](/static/images/githubsiteclone.png "Clone URL from Github")
 
 3. In your preferred IDE, Run in terminal `git clone https://github.com/CollinWuY/TGC-Django-Proj4.git`
 4. Repository will be cloned as a folder on your computer<br>
@@ -356,7 +357,7 @@ All media images rights belong to the respective companies that own the art. Thi
 
 #### Code/Concept ####
 
-- Most setup code concept is from Paul KunXin, lecturer from Trent Global, especially settings and delopyment to heroku. 
+- Most setup code concept is from Paul KunXin, lecturer from Trent Global, especially settings and delpoyment to heroku. 
 
 #### Fonts ####
 
