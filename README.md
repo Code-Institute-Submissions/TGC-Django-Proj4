@@ -30,11 +30,20 @@ The full website demo can be previewed here: [Tabletop Six MarketPlace Webpage](
 
 <br>
 
+___User Accounts___
 | Permission | User Login | Password |
 | ---------- | ---------- | -------- |
 | superuser  | admin      | admin123 |
 | normal     | test@email.com | tester123 |
 
+<br><br>
+
+___Stripe testing Credit Card Info___
+| Card No | Card Name | Card Expiry Date | Card CVV |
+| ------- | --------- | --------- | -------- |
+| 4242 4242 4242 4242 | Test | 11/22 | 222 |
+
+<br>
 Or create your own account with a valid email as there will be a verification email sent to you to verify the account.
 
 <br>
@@ -221,20 +230,24 @@ The page load time is tested using [Pingdom Tool](https://tools.pingdom.com/ "Pi
 
 Code validation is achieve by using developer tools provided by [W3C Developer Tools](https://w3c.github.io/developers/tools/ "W3C Developer Tools Webpage"). The webpage code tested til no errors are found on their checkers.<br>
 
- __CSS errors are from bootstrap packages.__<br>
+ - __CSS errors are from bootstrap and toastr packages.__<br>
+ - __Link errors are all tested and confirmed working, from Google Fonts, Facebook, Twitter.__<br>
 
-![Nu Html Validator](/static/images/NuHtmlChecker.png), ![Internationlization Validator](/static/images/InternationalizationChecker.png), ![Link Validator](/static/images/LinkChecker.png), ![CSS Validator](/static/images/CSSChecker.png).
+![Nu Html Validator](/static/images/proj4_nuhtml_checker.png), ![Internationlization Validator](/static/images/proj4_internationalization_checker.png), ![Link Validator](/static/images/proj4_link_checker.png), ![CSS Validator](/static/images/proj4_css_checker.png).
 
 #### Manual Testing ####
 
 Other testing include:
-- Testing creation of user accounts
-- Logged In User lock for posting new reviews
-- Editing/Deleting can only be done by Original Poster
+- Testing creation of user accounts, email verification, reset Password
+- Logged In User permission, access buttons only avaible when the correct user is logged in
+- Editing/Deleting reviews can only be done by Original Poster
+- Cart item quantity add/minus/remove logic working
 - Adminstrative Account access and permission to edit/delete/create any review
-- All flask redirects to correct pages
-- Searching jQuery Ajax Calls to Flask to MongoDB all working and updating front-end properly
-- Rating Stars CSS Hover change and display in correlation to the value taken from front-end or MongoDB database
+- All pages redirect/ render correct pages
+- Searching jQuery Ajax Calls to Django/Sqlite all working and updating front-end properly
+- Mobile friendly resize of all html pages
+- Stripe payment and checkout payment complete working
+- All Toastr messages popup with color code
 
 #### Browser Testing ####
 
@@ -246,16 +259,16 @@ The site while being hosted by Heroku Cloud Application Platform is tested on a 
 
 #### Bugs ####
 
-Mobile repsonsiveness on screens < 350px width are not working as intended. However at 360px width it works fine. This is mainly due to the structure the pages were done with, further optimization of this may resolve this issue. However small screen width size devices are currently the minority of users.<br>
+- On certain browsers, like Safari, Opera, any non-google friendly browsers will cause JavaScript to not function on old versions of Safari and Firefox Browsers. Some minority browser might cause CSS to not display as intended. However based on [W3School Browser Statics](https://www.w3schools.com/browsers/) in 2020, 80%+ uses Chrome, small number of people uses other browsers.
 
-On certain browsers, like Safari, Opera, any non-google friendly browsers will cause JavaScript to not function on old versions of Safari and Firefox Browsers. Some minority browser might cause CSS to not display as intended. However based on [W3School Browser Statics](https://www.w3schools.com/browsers/) in 2020, 80%+ uses Chrome, small number of people uses other browsers.<br>
-<br>
+- During Updating/Edit Book page, the cloudinary fields do not pull from the cloudinary server, resulting in the user to upload the images again, even if there is no change.
+
 
 ## Deployment ##
 
 This project uses Git for version control and hosts the repository for all commits. The depolyed site is hosted by [Heroku -Deployed Site](https://cwy-tgc8-project-3.herokuapp.com/ "Deployed Site")  where it can automatically updated on new commits directly to Heroku Master instead of GitHub.
 
-This project can be accessed via [CollinWuY's Github](https://github.com/CollinWuY/TGC-Project3-DataCentric "Project's Repository") where you can clone/download to your computer directly, or immedaitely view the code via Gitpod. 
+This project can be accessed via [CollinWuY's Github](https://github.com/CollinWuY/TGC-Django-Proj4 "Project's Repository") where you can clone/download to your computer directly, or immedaitely view the code via Gitpod. 
 
 All the needed assets, images, fonts, icons, javascript, css are in their respective folders, the main application to run is app.py.
 
@@ -268,24 +281,33 @@ Code is commited to GitHub regularly for version control:
     - Staged content is then commited with a clear defined message with `git commit -m "<msg>"` or by typing in the Source Control UI Tab of Gitpod and pressing the Tick above it
     - The commits are then pushed to the origin GitHub linked to the IDE via `git push -u origin master` or push option in the Source Control UI tab of Gitpod
 
-Deployment to Heroku is performed using command lines:
-- Ensure you have requirements.txt file available already, if not use `pip3 install -r requirements.txt`
-    - First Install Heroku on your local machine with `sudo snap install heroku --classic`, skip this step if it is already installed
+Deployment to Heroku is performed using command lines (Setup steps taken from Paul KunXin, lecturer of Trent Global):
+- First Install Heroku on your local machine with `sudo snap install heroku --classic`, skip this step if it is already installed
+    - Install all dependencies with `sudo apt install libpg-dev python3-dev`
+    - Install all relevant packages with `pip3 install gunicorn` `pip3 install psycopg2` `pip3 install Pillow` `pip3 install whitenoise` `pip3 install dj_database_url`
+    - Add whitenoise to the Middleware in the `settings.py` of the main app `whitenoise.middleware.WhiteNoiseMiddleWare`
+    - Enable whitenoise to work by adding `STATIC_ROOT=os.path.join(BASE_DIR, 'staticfiles')` into the `settings.py`
     - Log in into Heroku using `heroku login -i`
     - Create a new app on Herkou `heroku create <app-name>` , as app name needs to be unique throughout the web, it is suggested to put your initials before the app name
-    - Verify the remotes that have been added with `git remote -v`
-    - Install Gunicorn with `pip3 install gunicorn`
-    - Create a `Procfile` (no extenstion) and add in to file the FIRST LINE ONLY `web gunicorn <your main app name without .py>:app`
+    - Verify the remotes that have been added with `git remote -v`, both your github and heroku
+    - Copy your environment variables from .env file to heroku app dashboard config var settings
+    - Create a `Procfile` (no extenstion) and add in to file the FIRST LINE ONLY `web: gunicorn <your main app name>.wsgi:application`
+    - Change the `ALLOWED_HOSTS` in the `settings.py` to allow the domain name from heroku, `https://<heroku link>.herokuapp.com`
     - Freeze your imports and dependencies with `pip3 freeze --local > requirement.txt`
     - Finally commit your changes and push to Heroku using `git add.` `git commit -m "<msg>"` then `git push heroku master`
-    
+    - Setup the new postgres database on heroku, type `heroku config` into terminal and copy the DATABASE_URL value and add it into the .env file `export DATABASE_URL="<database_url>"`
+    - Export all your sqlite databse information use `python3 manage.py dumpdata --natural-primary --natural-foreign > dump.json`
+    - Change the database settings first `import dj_database_url` then in `settings.py` comment out the old DATABASES setting(keep if you need to access old sqlite database) then add in `DATABASES = {'default, dj_database_url.parse(os.environ["DATABASE_URL"])}`
+    - Migrate to new postgres database with `python3 manage.py migrate`
+    - Load all data from dump.json into database with `python3 manage.py loaddata dump.json`
+    - Finally commit your database changes and push to Heroku using `git add.` `git commit -m "Updated settings.py"` then `git push heroku master`
+
 #### Setting Up Env For Heroku ####
 
 Head to the [Heroku](https://www.heroku.com/ "Heroku Cloud Application Platform") webpage and login to your dash board
 - Choose the correct application you made previously
     - Under the Settings Tab --> Config Vars (Reveal Config Vars)
-    - Add in your Var keys like `MONGO_URL` and `SECRET_KEY` and their respective values
-    - Click on `Open App` at the navbar above to see your webpage
+    - Add in your Var keys from the .env to the dashboard, ___Extreme Caution___: avoid any trailing whitespaces in the values.
 
 
 #### Downloading Locally ####
@@ -308,11 +330,11 @@ All files can be easily download on the Github site:
 
 Cloning this repository can be achieve by using the link provided at the Github site:
 1. At the top right, click on green button under __CODE__
-2. Copy the link provided: `https://github.com/CollinWuY/TGC-Project3-DataCentric.git`
+2. Copy the link provided: `https://github.com/CollinWuY/TGC-Django-Proj4`
 
 ![Github Clone URL](static/images/githubsiteclone.png "Clone URL from Github")
 
-3. In your preferred IDE, Run in terminal `git clone https://github.com/CollinWuY/TGC-Project3-DataCentric.git`
+3. In your preferred IDE, Run in terminal `git clone https://github.com/CollinWuY/TGC-Django-Proj4.git`
 4. Repository will be cloned as a folder on your computer<br>
 <br>
 
@@ -329,16 +351,16 @@ All media images rights belong to the respective companies that own the art. Thi
 
 #### Icons ####
 
-- All icons are downloaded as SVG from [Font Awesome](https://fontawesome.com/)
+- All icons are downloaded/linked as SVG from [Font Awesome](https://fontawesome.com/)
 - Browser Tab Icon is Logo convertered using [Favicon.io](https://favicon.io/favicon-converter/)
 
 #### Code/Concept ####
 
-- Ratings Star Pure CSS is inspired from [Online Tutorials - Pure CSS Star Rating Widget](https://www.youtube.com/watch?v=Ep78KjstQuw "Youtube Video on Rating Stars Widget")  
+- Most setup code concept is from Paul KunXin, lecturer from Trent Global, especially settings and delopyment to heroku. 
 
 #### Fonts ####
 
-- Fonts are taken from Google Fonts; [Google Fonts Medieval Sharp](https://fonts.google.com/specimen/MedievalSharp) and [Google Fonts Monsterrat](https://fonts.google.com/specimen/Montserrat)
+- Fonts are taken from Google Fonts; [Google Fonts Medieval Sharp](https://fonts.google.com/specimen/MedievalSharp) and [Google Fonts El Messiri](https://fonts.google.com/specimen/El+Messiri)
 <br>
 <br>
 

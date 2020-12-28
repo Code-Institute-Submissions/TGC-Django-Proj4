@@ -30,9 +30,9 @@ STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 ENDPOINT_SECRET = os.environ.get('ENDPOINT_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*', 'cwy-tgc8-project4.herokuapp.com']
+ALLOWED_HOSTS = ['cwy-tgc8-project4.herokuapp.com']
 
 
 # Application definition
